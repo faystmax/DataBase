@@ -24,21 +24,35 @@ public class Details extends javax.swing.JFrame {
     public Details() throws SQLException {
         initComponents();
         ResultSet resSet = null;
-        //try {
-            //resSet = RemOtdel.st.executeQuery("select * from detailfromwarehouse");
-        //} catch (SQLException ex) {
-           // Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
-       // }
-       // jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
+        try {
+            resSet = RemOtdel.st.executeQuery("select * from detailfromwarehouse"
+                    + " inner join detail on detail.PK_Detail=detailfromwarehouse.PK_Detail"
+                    + " inner join storekeeper on storekeeper.PK_storekeeper=detailfromwarehouse.PK_storekeeper");
+        } catch (SQLException ex) {
+            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
-        //for (int i = 0; i < jTable1.getRowCount(); i++) {
-        //    resSet = RemOtdel.st.executeQuery("select nameofdetail from detail where pk_detail=" + jTable1.getValueAt(i, 3).toString());
-         //   jTable1.setValueAt(resSet.getInt(0), i, 3);
-       // }
-       
+        
+        jTable1.getColumnModel().getColumn(3).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(0);
+        
+        jTable1.getColumnModel().getColumn(4).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(4).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(4).setPreferredWidth(0);
+        
+        jTable1.getColumnModel().getColumn(5).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(5).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(5).setPreferredWidth(0);
+        
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(7).setPreferredWidth(0);
+
     }
 
     /**
@@ -74,15 +88,15 @@ public class Details extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(479, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         pack();

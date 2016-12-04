@@ -24,7 +24,7 @@ public class RemOtdel {
         // TODO code application logic here
         Locale.setDefault(Locale.ENGLISH);
         Class.forName("oracle.jdbc.OracleDriver");
-        Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SERVERADM", "parol_prostoiy");
+        Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SERVERADM", "1234");
         st = connection.createStatement();
         //connection.close();
         Login loginFrame = new Login();

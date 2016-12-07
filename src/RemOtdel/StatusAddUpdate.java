@@ -23,35 +23,35 @@ public class StatusAddUpdate extends javax.swing.JFrame {
     private int addOrUpdate;
     private int PK;
     private ListenerCloseForm listenerCloseForm;
-    
+
     public StatusAddUpdate(int addOrUpdate, int PK) {
         initComponents();
         this.addOrUpdate = addOrUpdate;
+        this.PK = PK;
         if (addOrUpdate == 1) {
             jButtonAddUpdate.setText("Изменить");
             this.setTitle("Изменить статус");
-        }
-        this.PK = PK;
-        
-        ResultSet resSet = null;
-        try {
-            resSet = RemOtdel.st.executeQuery("select nameofstatus from status where status.PK_status=" + PK);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Ошибка: Невозможно изменить");
-            
-            this.dispose();
-        }
-        try {
-            if (resSet.next()) {
-                jTextField1.setText(resSet.getString(1));
+
+            ResultSet resSet = null;
+            try {
+                resSet = RemOtdel.st.executeQuery("select nameofstatus from status where status.PK_status=" + PK);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Ошибка: Невозможно изменить");
+
+                this.dispose();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Ошибка: Невозможно изменить");
-            this.dispose();
+            try {
+                if (resSet.next()) {
+                    jTextField1.setText(resSet.getString(1));
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Ошибка: Невозможно изменить");
+                this.dispose();
+            }
         }
     }
-    
+
     public void setListenerCloseForm(ListenerCloseForm listenerCloseForm) {
         this.listenerCloseForm = listenerCloseForm;
     }
@@ -143,15 +143,15 @@ public class StatusAddUpdate extends javax.swing.JFrame {
                     listenerCloseForm.event();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ошибка: Невозможно добавить");
-                    
+
                 }
                 this.dispose();
             }
         } else {
             if (addOrUpdate == 1) {
-                
+
                 String text = jTextField1.getText();
-                
+
                 if (text.equals("")) {
                     JOptionPane.showMessageDialog(this, "Невозможно изменить на пустое поле");
                 } else {
@@ -165,7 +165,7 @@ public class StatusAddUpdate extends javax.swing.JFrame {
                     this.dispose();
                 }
             }
-            
+
         }
     }//GEN-LAST:event_jButtonAddUpdateActionPerformed
 

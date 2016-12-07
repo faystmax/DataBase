@@ -25,6 +25,9 @@ public class Login extends javax.swing.JFrame {
     String storagemanLogin = "storageman1";
     String storagemanParol = "storageman11";
 
+    String adminLogin = "admin";
+    String adminParol = "admin";
+
     /**
      * Creates new form Login
      */
@@ -121,7 +124,7 @@ public class Login extends javax.swing.JFrame {
         char[] parol = jPasswordField.getPassword();
         String password = String.valueOf(parol);
         if (login.equals(managerLogin) && password.equals(managerParol)) {
-            Orders orders=null;
+            Orders orders = null;
             try {
                 orders = new Orders();
             } catch (SQLException ex) {
@@ -130,6 +133,8 @@ public class Login extends javax.swing.JFrame {
             orders.setVisible(true);
             this.dispose();
         } else if (login.equals(engineerLogin) && password.equals(engineerParol)) {
+
+        } else if (login.equals(storagemanLogin) && password.equals(storagemanParol)) {
             try {
                 Details details = new Details();
                 details.setVisible(true);
@@ -137,47 +142,15 @@ public class Login extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (login.equals(storagemanLogin) && password.equals(storagemanParol)) {
-
-        }else{
+        } else if (login.equals(adminLogin) && password.equals(adminParol)) {
+            Admin admin = new Admin();
+            admin.setVisible(true);
+            this.dispose();
+        } else {
             jLabelIncorrect.setVisible(true);
         }
     }//GEN-LAST:event_jButtonEnterActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEnter;

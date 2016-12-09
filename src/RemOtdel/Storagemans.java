@@ -57,7 +57,7 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Кладовщики");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

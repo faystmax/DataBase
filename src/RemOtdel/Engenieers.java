@@ -5,19 +5,27 @@
  */
 package RemOtdel;
 
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.EventObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableColumnModel;
 import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author tigler
  */
-public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms{
+public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms {
 
     /**
      * Creates new form Engenieers
@@ -26,7 +34,57 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
         initComponents();
         addDataInTable();
     }
-    
+
+    class Mod implements TableModel{
+
+        @Override
+        public int getRowCount() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public int getColumnCount() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getColumnName(int i) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Class<?> getColumnClass(int i) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean isCellEditable(int i, int i1) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(int i, int i1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setValueAt(Object o, int i, int i1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void addTableModelListener(TableModelListener tl) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void removeTableModelListener(TableModelListener tl) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+   
+
     @Override
     public void addDataInTable() {
         ResultSet resSet = null;
@@ -35,13 +93,12 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
         } catch (SQLException ex) {
             Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
-        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        jTable1.setModel(new ReadOnlyModel(DbUtils.resultSetToTableModel(resSet)));
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
+       
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -154,7 +211,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
         // TODO add your handling code here:
-         if (jTable1.getSelectedRow() == -1) {
+        if (jTable1.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Выделите строку для удаления");
         } else {
             try {

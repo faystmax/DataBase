@@ -17,15 +17,12 @@ import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-<<<<<<< HEAD:src/RemOtdel/Engenieers.java
 import javax.swing.table.TableModel;
 import javax.swing.table.TableColumnModel;
-=======
 import users.storegman.Details;
 import main.rem.otdel.ListenerCloseForm;
 import main.rem.otdel.MainRemOtdel;
 import main.rem.otdel.UpdatesDataInForms;
->>>>>>> 3fe4d8a79c8a320be49a7cbbdd9f745469956c07:src/spravochn/engineer/Engenieers.java
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -101,7 +98,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
         } catch (SQLException ex) {
             Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jTable1.setModel(new ReadOnlyModel(DbUtils.resultSetToTableModel(resSet)));
+        jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);

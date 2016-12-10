@@ -85,6 +85,11 @@ public class ManagersAddUpdate extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Добавить менеджера");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Фамилия");
 
@@ -173,7 +178,7 @@ public class ManagersAddUpdate extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
-        // TODO add your handling code here:
+        listenerCloseForm.event();
         this.dispose();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
@@ -228,6 +233,10 @@ public class ManagersAddUpdate extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButtonAddUpdateActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       listenerCloseForm.event();
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

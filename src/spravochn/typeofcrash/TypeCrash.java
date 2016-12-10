@@ -33,6 +33,7 @@ public class TypeCrash extends javax.swing.JFrame implements UpdatesDataInForms 
 
     @Override
     public void addDataInTable() {
+        this.setEnabled(true);
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from typeofcrash");
@@ -57,7 +58,7 @@ public class TypeCrash extends javax.swing.JFrame implements UpdatesDataInForms 
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonAdd = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
@@ -105,14 +106,14 @@ public class TypeCrash extends javax.swing.JFrame implements UpdatesDataInForms 
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonAdd)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonUpdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +141,7 @@ public class TypeCrash extends javax.swing.JFrame implements UpdatesDataInForms 
         TypeCrashAddUpdate typeCrashAddUpdate = new TypeCrashAddUpdate(0, -1);
         typeCrashAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
         typeCrashAddUpdate.setVisible(true);
-        addDataInTable();
+        this.setEnabled(false);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -153,6 +154,7 @@ public class TypeCrash extends javax.swing.JFrame implements UpdatesDataInForms 
             TypeCrashAddUpdate typeCrashAddUpdate = new TypeCrashAddUpdate(1, primKey);
             typeCrashAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
             typeCrashAddUpdate.setVisible(true);
+            this.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 

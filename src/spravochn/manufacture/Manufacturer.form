@@ -35,7 +35,7 @@
                       <Component id="jButtonUpdate" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,7 +56,7 @@
                       <Component id="jButtonDelete" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <EmptySpace pref="20" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -80,6 +80,9 @@
               </Table>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable( )&#xa;        {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column)&#xa;            {&#xa;                return false;&#xa;            }&#xa;        };"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

@@ -33,6 +33,7 @@ public class Manufacturer extends javax.swing.JFrame implements UpdatesDataInFor
 
     @Override
     public void addDataInTable() {
+        this.setEnabled(true);
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from manufacturer");
@@ -57,7 +58,14 @@ public class Manufacturer extends javax.swing.JFrame implements UpdatesDataInFor
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )
+        {
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
         jButtonAdd = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
@@ -112,7 +120,7 @@ public class Manufacturer extends javax.swing.JFrame implements UpdatesDataInFor
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonUpdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,7 +136,7 @@ public class Manufacturer extends javax.swing.JFrame implements UpdatesDataInFor
                         .addComponent(jButtonUpdate)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonDelete)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,7 +148,7 @@ public class Manufacturer extends javax.swing.JFrame implements UpdatesDataInFor
         ManufacturerAddUpdate manufacturerAddUpdate = new ManufacturerAddUpdate(0, -1);
         manufacturerAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
         manufacturerAddUpdate.setVisible(true);
-        addDataInTable();
+        this.setEnabled(false);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -153,6 +161,7 @@ public class Manufacturer extends javax.swing.JFrame implements UpdatesDataInFor
             ManufacturerAddUpdate manufacturerAddUpdate = new ManufacturerAddUpdate(1, primKey);
             manufacturerAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
             manufacturerAddUpdate.setVisible(true);
+            this.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 

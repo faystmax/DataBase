@@ -94,6 +94,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
 
     @Override
     public void addDataInTable() {
+        this.setEnabled(true);
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from engineer");
@@ -117,7 +118,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonAdd = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
@@ -165,14 +166,14 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonAdd)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonUpdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(22, 22, 22))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +201,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
         EngenieersAddUpdate engenieersAddUpdate = new EngenieersAddUpdate(0, -1);
         engenieersAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
         engenieersAddUpdate.setVisible(true);
-        addDataInTable();
+        this.setEnabled(false);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -213,6 +214,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
             EngenieersAddUpdate engenieersAddUpdate = new EngenieersAddUpdate(1, primKey);
             engenieersAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
             engenieersAddUpdate.setVisible(true);
+            this.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 

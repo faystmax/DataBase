@@ -33,6 +33,7 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
 
     @Override
     public void addDataInTable() {
+        this.setEnabled(true);
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from storekeeper");
@@ -56,7 +57,7 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonAdd = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
@@ -139,7 +140,7 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
         StoragemanAddUpdate storagemanAddUpdate = new StoragemanAddUpdate(0, -1);
         storagemanAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
         storagemanAddUpdate.setVisible(true);
-        addDataInTable();
+        this.setEnabled(false);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -152,6 +153,7 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
             StoragemanAddUpdate storagemanAddUpdate = new StoragemanAddUpdate(1, primKey);
             storagemanAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
             storagemanAddUpdate.setVisible(true);
+            this.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import users.storegman.Details;
 import main.rem.otdel.ListenerCloseForm;
@@ -33,14 +34,15 @@ public class Status extends javax.swing.JFrame implements UpdatesDataInForms {
 
     @Override
     public void addDataInTable() {
+        this.setEnabled(true);
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from status");
         } catch (SQLException ex) {
             Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
-        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -57,7 +59,14 @@ public class Status extends javax.swing.JFrame implements UpdatesDataInForms {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )
+        {
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
         jButtonAdd = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
@@ -140,7 +149,7 @@ public class Status extends javax.swing.JFrame implements UpdatesDataInForms {
         StatusAddUpdate statusAddUpdate = new StatusAddUpdate(0, -1);
         statusAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
         statusAddUpdate.setVisible(true);
-        addDataInTable();
+        this.setEnabled(false);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -152,6 +161,7 @@ public class Status extends javax.swing.JFrame implements UpdatesDataInForms {
             int primKey = Integer.parseInt(PK.toString());
             StatusAddUpdate statusAddUpdate = new StatusAddUpdate(1, primKey);
             statusAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
+            this.setEnabled(false);
             statusAddUpdate.setVisible(true);
         }
     }//GEN-LAST:event_jButtonUpdateActionPerformed

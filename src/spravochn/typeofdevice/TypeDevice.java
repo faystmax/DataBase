@@ -33,6 +33,7 @@ public class TypeDevice extends javax.swing.JFrame implements UpdatesDataInForms
 
     @Override
     public void addDataInTable() {
+        this.setEnabled(true);
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from typeofdevice");
@@ -57,7 +58,7 @@ public class TypeDevice extends javax.swing.JFrame implements UpdatesDataInForms
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonAdd = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
@@ -140,7 +141,7 @@ public class TypeDevice extends javax.swing.JFrame implements UpdatesDataInForms
         TypeDeviceAddUpdate typeDeviceAddUpdate = new TypeDeviceAddUpdate(0, -1);
         typeDeviceAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
         typeDeviceAddUpdate.setVisible(true);
-        addDataInTable();
+        this.setEnabled(false);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -153,6 +154,7 @@ public class TypeDevice extends javax.swing.JFrame implements UpdatesDataInForms
             TypeDeviceAddUpdate typeDeviceAddUpdate = new TypeDeviceAddUpdate(1, primKey);
             typeDeviceAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
             typeDeviceAddUpdate.setVisible(true);
+            this.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 

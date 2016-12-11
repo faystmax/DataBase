@@ -85,13 +85,19 @@
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="manager11"/>
+        <Property name="text" type="java.lang.String" value="engineer11"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jPasswordFieldKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLogin">
       <Properties>
-        <Property name="text" type="java.lang.String" value="manager1"/>
+        <Property name="text" type="java.lang.String" value="engineer1"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldLoginKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonEnter">
       <Properties>
@@ -99,6 +105,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEnterActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButtonEnterKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelIncorrect">

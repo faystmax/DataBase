@@ -9,9 +9,12 @@ import users.storegman.Details;
 import users.admin.Admin;
 import users.manager.Orders;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import users.engineer.EngineerForm;
 
 /**
  *
@@ -67,14 +70,29 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabelParol.setText("Пароль");
 
-        jPasswordField.setText("manager11");
+        jPasswordField.setText("engineer11");
+        jPasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordFieldKeyPressed(evt);
+            }
+        });
 
-        jTextFieldLogin.setText("manager1");
+        jTextFieldLogin.setText("engineer1");
+        jTextFieldLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldLoginKeyPressed(evt);
+            }
+        });
 
         jButtonEnter.setText("Войти");
         jButtonEnter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEnterActionPerformed(evt);
+            }
+        });
+        jButtonEnter.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonEnterKeyPressed(evt);
             }
         });
 
@@ -126,37 +144,92 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
-        // TODO add your handling code here:
-        String login = jTextFieldLogin.getText();
-        char[] parol = jPasswordField.getPassword();
-        String password = String.valueOf(parol);
-        if (login.equals(managerLogin) && password.equals(managerParol)) {
-            Orders orders = null;
-            try {
-                orders = new Orders();
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            // TODO add your handling code here:
+            ResultSet resSet = null;
+            String userLogin = null;
+            String userPassword = null;
+            String loginTextField = null;
+            char[] parol;
+            String passwordTextField = null;
+            resSet = MainRemOtdel.st.executeQuery("select manager.login,manager.password, manager.PK_manager  from manager");
+
+            while (resSet.next()) {
+                userLogin = resSet.getString(1);
+                userPassword = resSet.getString(2);
+                loginTextField = jTextFieldLogin.getText();
+                parol = jPasswordField.getPassword();
+                passwordTextField = String.valueOf(parol);
+                if (loginTextField.equals(userLogin) && passwordTextField.equals(userPassword)) {
+                    Orders orders = null;
+                    orders = new Orders(resSet.getInt(3));
+                    orders.setVisible(true);
+                    this.dispose();
+                }
             }
-            orders.setVisible(true);
-            this.dispose();
-        } else if (login.equals(engineerLogin) && password.equals(engineerParol)) {
-                
-        } else if (login.equals(storagemanLogin) && password.equals(storagemanParol)) {
-            try {
-                Details details = new Details();
-                details.setVisible(true);
+
+            resSet = MainRemOtdel.st.executeQuery("select engineer.login,engineer.password, engineer.PK_engineer from engineer");
+
+            while (resSet.next()) {
+                userLogin = resSet.getString(1);
+                userPassword = resSet.getString(2);
+                loginTextField = jTextFieldLogin.getText();
+                parol = jPasswordField.getPassword();
+                passwordTextField = String.valueOf(parol);
+                if (loginTextField.equals(userLogin) && passwordTextField.equals(userPassword)) {
+                    EngineerForm engineerForm = null;
+                    engineerForm = new EngineerForm(resSet.getInt(3));
+                    engineerForm.setVisible(true);
+                    this.dispose();
+                }
+            }
+
+            resSet = MainRemOtdel.st.executeQuery("select storekeeper.login,storekeeper.password,storekeeper.PK_storekeeper from storekeeper");
+
+            while (resSet.next()) {
+                userLogin = resSet.getString(1);
+                userPassword = resSet.getString(2);
+                loginTextField = jTextFieldLogin.getText();
+                parol = jPasswordField.getPassword();
+                passwordTextField = String.valueOf(parol);
+                if (loginTextField.equals(userLogin) && passwordTextField.equals(userPassword)) {
+                    Details details = new Details(resSet.getInt(3));
+                    details.setVisible(true);
+                    this.dispose();
+                }
+            }
+            if (loginTextField.equals(adminLogin) && passwordTextField.equals(adminParol)) {
+                Admin admin = new Admin();
+                admin.setVisible(true);
                 this.dispose();
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                jLabelIncorrect.setVisible(true);
             }
-        } else if (login.equals(adminLogin) && password.equals(adminParol)) {
-            Admin admin = new Admin();
-            admin.setVisible(true);
-            this.dispose();
-        } else {
-            jLabelIncorrect.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonEnterActionPerformed
+
+    private void jTextFieldLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLoginKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButtonEnter.doClick();
+        }
+    }//GEN-LAST:event_jTextFieldLoginKeyPressed
+
+    private void jPasswordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButtonEnter.doClick();
+        }
+    }//GEN-LAST:event_jPasswordFieldKeyPressed
+
+    private void jButtonEnterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonEnterKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButtonEnter.doClick();
+        }
+    }//GEN-LAST:event_jButtonEnterKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

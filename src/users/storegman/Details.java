@@ -9,23 +9,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.rem.otdel.MainRemOtdel;
+import main.rem.otdel.UpdatesDataInForms;
 import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author tigler
  */
-public class Details extends javax.swing.JFrame {
+public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
 
     /**
      * Creates new form Details
      */
     private int PK;
+
     public Details(int PK) throws SQLException {
         initComponents();
-        this.PK=PK;
+        this.PK = PK;
+        addDataInTable();
+        jTable3.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable3.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable3.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+
+    @Override
+    public void addDataInTable() {
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from detailfromwarehouse"
@@ -35,27 +46,32 @@ public class Details extends javax.swing.JFrame {
             Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
-        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
-        
-        jTable1.getColumnModel().getColumn(3).setMaxWidth(0);
-        jTable1.getColumnModel().getColumn(3).setMinWidth(0);
-        jTable1.getColumnModel().getColumn(3).setPreferredWidth(0);
-        
-        jTable1.getColumnModel().getColumn(4).setMaxWidth(0);
-        jTable1.getColumnModel().getColumn(4).setMinWidth(0);
-        jTable1.getColumnModel().getColumn(4).setPreferredWidth(0);
-        
-        jTable1.getColumnModel().getColumn(5).setMaxWidth(0);
-        jTable1.getColumnModel().getColumn(5).setMinWidth(0);
-        jTable1.getColumnModel().getColumn(5).setPreferredWidth(0);
-        
-        jTable1.getColumnModel().getColumn(7).setMaxWidth(0);
-        jTable1.getColumnModel().getColumn(7).setMinWidth(0);
-        jTable1.getColumnModel().getColumn(7).setPreferredWidth(0);
 
+        try {
+            resSet = MainRemOtdel.st.executeQuery("select PK_zapros,"
+                    + " TO_CHAR(zapros.TIMETOGet, 'DD.MM.YYYY'),"
+                    + " TO_CHAR(zapros.TIMETOComplete, 'DD.MM.YYYY'),"
+                    + " engineer.FAMOFengineer || ' ' || engineer.NAMEOFengineer || ' ' || engineer.OTChOFengineer,"
+                    + " flagofcomplete"
+                    + " from zapros"
+                    + " inner join repair on repair.PK_repair=zapros.PK_repair"
+                    + " inner join engineer on engineer.PK_engineer=repair.PK_engineer"
+            );
+        } catch (SQLException ex) {
+            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jTable2.setModel(DbUtils.resultSetToTableModel(resSet));
+        jTable2.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable2.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable2.getColumnModel().getColumn(0).setPreferredWidth(0);
+
+        jTable2.getColumnModel().getColumn(1).setHeaderValue("Дата создания");
+        jTable2.getColumnModel().getColumn(2).setHeaderValue("Дата выполнения");
+        jTable2.getColumnModel().getColumn(3).setHeaderValue("Инженер");
+        jTable2.getColumnModel().getColumn(4).setHeaderValue("Состояние");
     }
 
     /**
@@ -67,8 +83,19 @@ public class Details extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jButtonExecute = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuAddDetail = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,29 +112,193 @@ public class Details extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                .addGap(69, 69, 69))
+        );
+
+        jTabbedPane1.addTab("Детали", jPanel1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable2MousePressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "pk", "Деталь", "Колличество"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+
+        jButtonExecute.setText("Выполнить");
+        jButtonExecute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExecuteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonExecute, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonExecute))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Выполнение запросов", jPanel2);
+
+        jMenu1.setText("Файл");
+        jMenuBar1.add(jMenu1);
+
+        jMenuAddDetail.setText("Пополнить детали на складе");
+        jMenuBar1.add(jMenuAddDetail);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTable2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MousePressed
+        // TODO add your handling code here:
+        int idx = jTable2.getSelectedRow();
+        String pkReq = jTable2.getValueAt(idx, 0).toString();
+        ResultSet resSet = null;
+        try {
+            resSet = MainRemOtdel.st.executeQuery("select PK_detailofrequest, detail.nameofdetail,amount from detailofrequest"
+                    + " inner join detail on detail.PK_detail=detailofrequest.PK_detail"
+                    + " where PK_Zapros=" + pkReq);
+        } catch (SQLException ex) {
+            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jTable3.setModel(DbUtils.resultSetToTableModel(resSet));
+        jTable3.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable3.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable3.getColumnModel().getColumn(0).setPreferredWidth(0);
+        jTable3.getColumnModel().getColumn(1).setHeaderValue("Деталь");
+        jTable3.getColumnModel().getColumn(2).setHeaderValue("Колличество");
+    }//GEN-LAST:event_jTable2MousePressed
+
+    private void jButtonExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecuteActionPerformed
+        // TODO add your handling code here:
+        ResultSet resSet = null;
+        if (jTable3.getRowCount() <= 0) {
+            JOptionPane.showMessageDialog(this, "Пустой запрос.Нечего выполнять");
+        } else {
+            String PK_detailfromwarehouse=null;
+            String PK_detail=null;
+            int amount =-1;
+            for (int i = 0; i < jTable3.getRowCount(); i++) {
+                try {
+                    resSet = MainRemOtdel.st.executeQuery("select PK_detailfromwarehouse, PK_detail,amount"
+                            + " from detailfromwarehouse where PK_storekeeper=" + PK);
+
+                    if (resSet.next()) {
+                        PK_detailfromwarehouse = resSet.getString(1);
+                        PK_detail= resSet.getString(2);
+                        amount = resSet.getInt(3);                    
+                    }
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonExecuteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonExecute;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenuAddDetail;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
+
 }

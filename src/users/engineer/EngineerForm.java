@@ -445,29 +445,31 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
             if (jComboBoxStorekeeper.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(rootPane, "Не выбран кладовщик");
             } else {
-                //if (jList1.getMaxSelectionIndex() <= 0) {
-                //   JOptionPane.showMessageDialog(rootPane, "Не выбрана ни одна деталь");
-                //} else {
-                try {
-                    int pkRepair = Integer.parseInt(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
-                    int idxComboBox = jComboBoxStorekeeper.getSelectedIndex();
-                    String pkStrokeeper = pkStorekeeper.get(idxComboBox);
-                    java.sql.Date date = new java.sql.Date(jDateChooser1.getDateEditor().getDate().getTime());
-                    MainRemOtdel.st.executeQuery("Insert into zapros (PK_Repair, PK_storekeeper,timetoget,flagofcomplete) values ('" + pkRepair + "','" + pkStrokeeper + "', TO_DATE('" + date + "', 'YYYY-MM-DD') ,'0')");
-                    resSet = MainRemOtdel.st.executeQuery("select seqzapros.currval from dual");
-                    int pkZapros = 0;
-                    if (resSet.next()) {
-                        pkZapros = resSet.getInt(1);
+                if (jTable3.getRowCount() <= 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Не выбрана ни одна деталь");
+                } else {
+                    try {
+                        int pkRepair = Integer.parseInt(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
+                        int idxComboBox = jComboBoxStorekeeper.getSelectedIndex();
+                        String pkStrokeeper = pkStorekeeper.get(idxComboBox);
+                        java.sql.Date date = new java.sql.Date(jDateChooser1.getDateEditor().getDate().getTime());
+                        MainRemOtdel.st.executeQuery("Insert into zapros (PK_Repair, PK_storekeeper,timetoget,flagofcomplete) values ('" + pkRepair + "','" + pkStrokeeper + "', TO_DATE('" + date + "', 'YYYY-MM-DD') ,'0')");
+                        resSet = MainRemOtdel.st.executeQuery("select seqzapros.currval from dual");
+                        int pkZapros = 0;
+                        if (resSet.next()) {
+                            pkZapros = resSet.getInt(1);
+                        }
+                        for (int i = 0; i < jTable3.getRowCount(); i++) {
+                            String pkDet = (String) jTable3.getValueAt(i, 0);
+                            String countDetail = (String) jTable3.getValueAt(i, 0);
+                            MainRemOtdel.st.executeQuery("Insert into detailofrequest (PK_zapros,PK_detail,amount) values ('" + pkZapros + "','" + pkDet + "','" + countDetail + "')");
+                        }
+                        JOptionPane.showMessageDialog(rootPane, "Запрос отправлен");
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(rootPane, "Не удалось добавить запрос");
+                        Logger.getLogger(EngineerForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    int idxComboBoxDetail = jComboBoxDetail.getSelectedIndex();
-                    String pkDetailConcr = pkDetail.get(idxComboBoxDetail);
-                    //jList1.
-                    //MainRemOtdel.st.executeQuery("Insert into detailofrequest (PK_zapros,PK_detail,amount) values ('" + pkZapros + "','" + pkDetailConcr + "','" + countDetail + "')");
-                    JOptionPane.showMessageDialog(rootPane, "Запрос отправлен");
-                } catch (SQLException ex) {
-                    Logger.getLogger(EngineerForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                //}
             }
         }
     }//GEN-LAST:event_jButtonSendActionPerformed
@@ -477,15 +479,22 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         if (jComboBoxDetail.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Выберите деталь");
         } else {
-            if ((int)jSpinner1.getValue()<=0) {
+            if ((int) jSpinner1.getValue() <= 0) {
                 JOptionPane.showMessageDialog(rootPane, "Деталей не может быть меньше одной");
             } else {
+                for (int i = 0; i < jTable3.getRowCount(); i++) {
+                    if (pkDetail.get(jComboBoxDetail.getSelectedIndex()) == jTable3.getValueAt(i, 0)) {
+                        JOptionPane.showMessageDialog(rootPane, "Такая деталь уже добавлена в список");
+                        return;
+                    }
+                }
                 Object[] objects = {
                     pkDetail.get(jComboBoxDetail.getSelectedIndex()),
                     valueDetail.get(jComboBoxDetail.getSelectedIndex()),
                     jSpinner1.getValue().toString()
                 };
                 dtm.addRow(objects);
+
             }
         }
 
@@ -493,11 +502,11 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
 
     private void jButtonDeleteDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteDetailActionPerformed
         // TODO add your handling code here:
-       if (jTable3.getSelectedRow() == -1) {
+        if (jTable3.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Выберите строку для удаления");
         } else {
-           dtm.removeRow(jTable3.getSelectedRow());
-       }
+            dtm.removeRow(jTable3.getSelectedRow());
+        }
     }//GEN-LAST:event_jButtonDeleteDetailActionPerformed
 
 

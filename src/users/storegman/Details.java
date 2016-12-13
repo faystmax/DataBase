@@ -7,6 +7,7 @@ package users.storegman;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -72,6 +73,17 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable2.getColumnModel().getColumn(2).setHeaderValue("Дата выполнения");
         jTable2.getColumnModel().getColumn(3).setHeaderValue("Инженер");
         jTable2.getColumnModel().getColumn(4).setHeaderValue("Состояние");
+        for (int i = 0; i < jTable2.getRowCount(); i++) {
+            if (jTable2.getValueAt(i, 4).toString().equals("0")) {
+                jTable2.setValueAt("Ожидает выполнения", i, 4);
+            } else {
+                if (jTable2.getValueAt(i, 4).toString().equals("1")) {
+                    jTable2.setValueAt("Выполнено", i, 4);
+                } else {
+                    jTable2.setValueAt("Неизвестно", i, 4);
+                }
+            }
+        }
     }
 
     /**
@@ -93,6 +105,8 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButtonExecute = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuAddDetail = new javax.swing.JMenu();
@@ -118,14 +132,14 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                 .addGap(69, 69, 69))
         );
 
@@ -172,6 +186,11 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
                 return canEdit [columnIndex];
             }
         });
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable3MousePressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable3);
 
         jButtonExecute.setText("Выполнить");
@@ -181,6 +200,19 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
             }
         });
 
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable4);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -189,11 +221,15 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonExecute, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addComponent(jButtonExecute, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,9 +238,12 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonExecute))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(jButtonExecute)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Выполнение запросов", jPanel2);
@@ -223,15 +262,15 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         pack();
@@ -255,6 +294,8 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable3.getColumnModel().getColumn(0).setPreferredWidth(0);
         jTable3.getColumnModel().getColumn(1).setHeaderValue("Деталь");
         jTable3.getColumnModel().getColumn(2).setHeaderValue("Колличество");
+
+
     }//GEN-LAST:event_jTable2MousePressed
 
     private void jButtonExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecuteActionPerformed
@@ -263,26 +304,71 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
         if (jTable3.getRowCount() <= 0) {
             JOptionPane.showMessageDialog(this, "Пустой запрос.Нечего выполнять");
         } else {
-            String PK_detailfromwarehouse=null;
-            String PK_detail=null;
-            int amount =-1;
+            String PK_detailfromwarehouse = null;
+            String PK_detail = null;
+            int amount = -1;
+
+            String PK_detailFromTable = null;
+            int amountFromTable = -1;
+            ArrayList<String> pkDetailsNotInstore = new ArrayList<>();
+
+            ArrayList<String> pkDetailsFromWareHouse = new ArrayList<>();
+            ArrayList<Integer> amountDetailsFromWareHouse = new ArrayList<>();
+
             for (int i = 0; i < jTable3.getRowCount(); i++) {
+                PK_detailFromTable = jTable3.getValueAt(i, 0).toString();
+                amountFromTable = Integer.parseInt(jTable3.getValueAt(i, 2).toString());
                 try {
                     resSet = MainRemOtdel.st.executeQuery("select PK_detailfromwarehouse, PK_detail,amount"
                             + " from detailfromwarehouse where PK_storekeeper=" + PK);
-
-                    if (resSet.next()) {
+                    while (resSet.next()) {
                         PK_detailfromwarehouse = resSet.getString(1);
-                        PK_detail= resSet.getString(2);
-                        amount = resSet.getInt(3);                    
+                        PK_detail = resSet.getString(2);
+                        amount = resSet.getInt(3);
+                        if (PK_detail.equals(PK_detailFromTable)) {
+                            if (amountFromTable > amount) {
+                                pkDetailsNotInstore.add(PK_detail);
+                            } else {
+                                int amountTmp = amount - amountFromTable;
+                                pkDetailsFromWareHouse.add(PK_detailfromwarehouse);
+                                amountDetailsFromWareHouse.add(amountTmp);
+                            }
+                        }
                     }
-                    
+                    if (pkDetailsNotInstore.size() == 0) {
+                        MainRemOtdel.st.executeQuery("update detailfromwarehouse set amount=" + amountTmp + " where pk_detailfromwarehouse=" + PK_detailfromwarehouse);
+                    } else {
+                        resSet = MainRemOtdel.st.executeQuery("select PK_detailfromwarehouse, PK_detail,amount"
+                                + " from detailfromwarehouse where PK_storekeeper=" + PK);
+                        JOptionPane.showMessageDialog(this, "Не хватает деталей для выполнения запроса: ");
+                    }
+
                 } catch (SQLException ex) {
                     Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }//GEN-LAST:event_jButtonExecuteActionPerformed
+
+    private void jTable3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MousePressed
+        // TODO add your handling code here:
+        
+        try {
+            resSet = MainRemOtdel.st.executeQuery("select PK_detailfromwarehouse, detail.nameofdetail,location, amount from detailfromwarehouse"
+                    + " inner join detail on detail.PK_detail=detailfromwarehouse.PK_detail"
+                    + " where PK_detail=" + pkReq);
+        } catch (SQLException ex) {
+            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jTable4.setModel(DbUtils.resultSetToTableModel(resSet));
+        jTable4.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable4.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable4.getColumnModel().getColumn(0).setPreferredWidth(0);
+        jTable4.getColumnModel().getColumn(1).setHeaderValue("Деталь");
+        jTable4.getColumnModel().getColumn(2).setHeaderValue("Расположение");
+        jTable4.getColumnModel().getColumn(3).setHeaderValue("Колличество на складе");
+        jTable4.getColumnModel().getColumn(4).setHeaderValue("Взять деталей");
+    }//GEN-LAST:event_jTable3MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -295,10 +381,12 @@ public class Details extends javax.swing.JFrame implements UpdatesDataInForms {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     // End of variables declaration//GEN-END:variables
 
 }

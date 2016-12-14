@@ -5,7 +5,7 @@
  */
 package main.rem.otdel;
 
-import users.storegman.Details;
+import users.storegman.DetailsStore;
 import users.admin.Admin;
 import users.manager.Orders;
 import java.awt.Color;
@@ -193,7 +193,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 parol = jPasswordField.getPassword();
                 passwordTextField = String.valueOf(parol);
                 if (loginTextField.equals(userLogin) && passwordTextField.equals(userPassword)) {
-                    Details details = new Details(resSet.getInt(3));
+                    DetailsStore details = new DetailsStore(resSet.getInt(3));
                     details.setVisible(true);
                     this.dispose();
                 }

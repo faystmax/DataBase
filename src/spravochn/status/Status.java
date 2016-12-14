@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import users.storegman.Details;
+import users.storegman.DetailsStore;
 import main.rem.otdel.ListenerCloseForm;
 import main.rem.otdel.MainRemOtdel;
 import main.rem.otdel.UpdatesDataInForms;
@@ -39,7 +39,7 @@ public class Status extends javax.swing.JFrame implements UpdatesDataInForms {
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from status");
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
@@ -184,7 +184,7 @@ public class Status extends javax.swing.JFrame implements UpdatesDataInForms {
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Удаление невозможно");
-                Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButtonDeleteActionPerformed

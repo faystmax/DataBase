@@ -5,7 +5,7 @@
  */
 package users.engineer;
 
-import users.storegman.Details;
+import users.storegman.DetailsStore;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -38,7 +38,7 @@ public class Zapros extends javax.swing.JFrame implements UpdatesDataInForms {
                     + " inner join storekeeper on storekeeper.PK_storekeeper=zapros.PK_storekeeper"
                     + " inner join storekeeper on storekeeper.PK_storekeeper=zapros.PK_storekeeper");
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();

@@ -19,7 +19,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableColumnModel;
-import users.storegman.Details;
+import users.storegman.DetailsStore;
 import main.rem.otdel.ListenerCloseForm;
 import main.rem.otdel.MainRemOtdel;
 import main.rem.otdel.UpdatesDataInForms;
@@ -47,7 +47,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from engineer");
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -184,7 +184,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Удаление невозможно");
-                Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButtonDeleteActionPerformed

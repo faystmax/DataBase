@@ -598,7 +598,6 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
     private void jMenuItemStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStatusActionPerformed
         // TODO add your handling code here:
         Status status = new Status();
-        status.setLocationRelativeTo(this);
         status.setVisible(true);
     }//GEN-LAST:event_jMenuItemStatusActionPerformed
 

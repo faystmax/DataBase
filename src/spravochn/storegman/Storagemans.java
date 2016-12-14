@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import users.storegman.Details;
+import users.storegman.DetailsStore;
 import main.rem.otdel.ListenerCloseForm;
 import main.rem.otdel.MainRemOtdel;
 import main.rem.otdel.UpdatesDataInForms;
@@ -38,7 +38,7 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
         try {
             resSet = MainRemOtdel.st.executeQuery("select * from storekeeper");
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
@@ -175,7 +175,7 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Удаление невозможно");
-                Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButtonDeleteActionPerformed

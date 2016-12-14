@@ -5,6 +5,7 @@
  */
 package users.engineer;
 
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import javax.swing.table.TableModel;
 import main.rem.otdel.MainRemOtdel;
 import main.rem.otdel.UpdatesDataInForms;
 import net.proteanit.sql.DbUtils;
-import users.storegman.Details;
+import users.storegman.DetailsStore;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -49,7 +50,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                     + " storekeeper.FAMOFstorekeeper || ' ' || storekeeper.NAMEOFstorekeeper  || ' ' || storekeeper.OTCOFstorekeeper"
                     + " from storekeeper");
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         TableModel tableModel = DbUtils.resultSetToTableModel(resSet);
         for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -59,9 +60,11 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jComboBoxStorekeeper.setModel(new DefaultComboBoxModel(valueStorekeeper.toArray()));
         jComboBoxStorekeeper.setSelectedIndex(-1);
 
-        jDateChooser1.setDateFormatString("dd.MM.YYYY");
+        jDateChooser1.setDateFormatString("dd.MM.yyyy");
         jDateChooser1.setDate(new Date());
-        jDateChooser1.getDateEditor().setEnabled(false);
+        //jDateChooser1.getDateEditor().setEnabled(false);
+        JTextFieldDateEditor editor2 = (JTextFieldDateEditor) jDateChooser1.getDateEditor();
+        editor2.setEditable(false);
 
         pkDetail = new ArrayList<String>();
         valueDetail = new ArrayList<String>();
@@ -71,7 +74,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                     + " detail.nameofdetail"
                     + " from detail");
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         tableModel = DbUtils.resultSetToTableModel(resSet);
         for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -91,8 +94,8 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                     + " TO_CHAR(repair.enddate, 'DD.MM.YYYY'),"
                     + " typeofdevice.nameoftype,"
                     + " manufacturer.nameofmanufacturer,"
-                    + " device.modelofdevice,"
-                    + " engineer.FAMOFengineer || ' ' || engineer.NAMEOFengineer  || ' ' || engineer.OTChOFengineer"
+                    + " device.modelofdevice"
+                    //+ " engineer.FAMOFengineer || ' ' || engineer.NAMEOFengineer  || ' ' || engineer.OTChOFengineer"
                     + " from repair "
                     + " inner join engineer on repair.PK_engineer=engineer.PK_engineer"
                     + " inner join device on repair.PK_device=device.PK_device"
@@ -100,7 +103,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                     + " inner join typeofdevice on device.PK_typeofdevice=typeofdevice.PK_typeofdevice"
             );
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
 
@@ -112,15 +115,16 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jTable1.getColumnModel().getColumn(3).setHeaderValue("Тип");
         jTable1.getColumnModel().getColumn(4).setHeaderValue("Производитель");
         jTable1.getColumnModel().getColumn(5).setHeaderValue("Модель");
-        jTable1.getColumnModel().getColumn(6).setHeaderValue("Инженер");
+        //jTable1.getColumnModel().getColumn(6).setHeaderValue("Инженер");
 
         try {
-            resSet = MainRemOtdel.st.executeQuery("select repair.PK_repair, TO_CHAR(repair.startdate, 'DD.MM.YYYY'),"
-                    + " TO_CHAR(repair.enddate, 'DD.MM.YYYY'),"
+            resSet = MainRemOtdel.st.executeQuery("select repair.PK_repair,"
                     + " typeofdevice.nameoftype,"
                     + " manufacturer.nameofmanufacturer,"
                     + " device.modelofdevice,"
-                    + " engineer.FAMOFengineer || ' ' || engineer.NAMEOFengineer  || ' ' || engineer.OTChOFengineer"
+                    + " TO_CHAR(repair.startdate, 'DD.MM.YYYY'),"
+                    + " TO_CHAR(repair.enddate, 'DD.MM.YYYY')"
+                    // + " engineer.FAMOFengineer || ' ' || engineer.NAMEOFengineer  || ' ' || engineer.OTChOFengineer"
                     + " from repair "
                     + " inner join engineer on repair.PK_engineer=engineer.PK_engineer"
                     + " inner join device on repair.PK_device=device.PK_device"
@@ -128,7 +132,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                     + " inner join typeofdevice on device.PK_typeofdevice=typeofdevice.PK_typeofdevice"
                     + " where repair.PK_engineer=" + PK);
         } catch (SQLException ex) {
-            Logger.getLogger(Details.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable2.setModel(DbUtils.resultSetToTableModel(resSet));
 
@@ -140,7 +144,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jTable2.getColumnModel().getColumn(3).setHeaderValue("Тип");
         jTable2.getColumnModel().getColumn(4).setHeaderValue("Производитель");
         jTable2.getColumnModel().getColumn(5).setHeaderValue("Модель");
-        jTable2.getColumnModel().getColumn(6).setHeaderValue("Инженер");
+        //jTable2.getColumnModel().getColumn(6).setHeaderValue("Инженер");
 
         dtm = new DefaultTableModel();
         jTable3.setModel(dtm);
@@ -165,6 +169,9 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jPanelRemonts = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
+        jButtonAdd = new javax.swing.JButton();
+        jButtonUpdate = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
         jPanelCreateZapros = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jComboBoxStorekeeper = new javax.swing.JComboBox<>();
@@ -201,13 +208,39 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jButtonAdd.setText("Добавить");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
+
+        jButtonUpdate.setText("Изменить");
+        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateActionPerformed(evt);
+            }
+        });
+
+        jButtonDelete.setText("Удалить");
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelRemontsLayout = new javax.swing.GroupLayout(jPanelRemonts);
         jPanelRemonts.setLayout(jPanelRemontsLayout);
         jPanelRemontsLayout.setHorizontalGroup(
             jPanelRemontsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRemontsLayout.createSequentialGroup()
+            .addGroup(jPanelRemontsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelRemontsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonUpdate)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelRemontsLayout.setVerticalGroup(
@@ -216,6 +249,14 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanelRemontsLayout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addComponent(jButtonAdd)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonUpdate)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonDelete)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("Ремонты", jPanelRemonts);
@@ -370,18 +411,17 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelCreateZaprosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelCreateZaprosLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanelCreateZaprosLayout.createSequentialGroup()
-                                .addComponent(jComboBoxStorekeeper, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanelCreateZaprosLayout.createSequentialGroup()
                                 .addGroup(jPanelCreateZaprosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanelCreateZaprosLayout.createSequentialGroup()
                                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap())))
+                                .addContainerGap())
+                            .addGroup(jPanelCreateZaprosLayout.createSequentialGroup()
+                                .addGroup(jPanelCreateZaprosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jComboBoxStorekeeper, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCreateZaprosLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonSend, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -453,7 +493,8 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                         int idxComboBox = jComboBoxStorekeeper.getSelectedIndex();
                         String pkStrokeeper = pkStorekeeper.get(idxComboBox);
                         java.sql.Date date = new java.sql.Date(jDateChooser1.getDateEditor().getDate().getTime());
-                        MainRemOtdel.st.executeQuery("Insert into zapros (PK_Repair, PK_storekeeper,timetoget,flagofcomplete) values ('" + pkRepair + "','" + pkStrokeeper + "', TO_DATE('" + date + "', 'YYYY-MM-DD') ,'0')");
+                        MainRemOtdel.st.executeQuery("Insert into zapros (PK_Repair, PK_storekeeper,timetoget,"
+                                + "flagofcomplete) values ('" + pkRepair + "','" + pkStrokeeper + "', TO_DATE('" + date + "', 'YYYY-MM-DD') ,'0')");
                         resSet = MainRemOtdel.st.executeQuery("select seqzapros.currval from dual");
                         int pkZapros = 0;
                         if (resSet.next()) {
@@ -462,7 +503,8 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                         for (int i = 0; i < jTable3.getRowCount(); i++) {
                             String pkDet = (String) jTable3.getValueAt(i, 0);
                             String countDetail = (String) jTable3.getValueAt(i, 0);
-                            MainRemOtdel.st.executeQuery("Insert into detailofrequest (PK_zapros,PK_detail,amount) values ('" + pkZapros + "','" + pkDet + "','" + countDetail + "')");
+                            MainRemOtdel.st.executeQuery("Insert into detailofrequest"
+                                    + " (PK_zapros,PK_detail,amount) values ('" + pkZapros + "','" + pkDet + "','" + countDetail + "')");
                         }
                         JOptionPane.showMessageDialog(rootPane, "Запрос отправлен");
                     } catch (SQLException ex) {
@@ -509,11 +551,26 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         }
     }//GEN-LAST:event_jButtonDeleteDetailActionPerformed
 
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonUpdateActionPerformed
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonAddDetail;
+    private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonDeleteDetail;
     private javax.swing.JButton jButtonSend;
+    private javax.swing.JButton jButtonUpdate;
     private javax.swing.JComboBox<String> jComboBoxDetail;
     private javax.swing.JComboBox<String> jComboBoxStorekeeper;
     private com.toedter.calendar.JDateChooser jDateChooser1;

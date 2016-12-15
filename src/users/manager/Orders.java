@@ -5,6 +5,7 @@
  */
 package users.manager;
 
+import com.toedter.calendar.JTextFieldDateEditor;
 import spravochn.manufacture.Manufacturer;
 import spravochn.typeofcrash.TypeCrash;
 import spravochn.typeofdevice.TypeDevice;
@@ -17,9 +18,13 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import main.rem.otdel.ListenerCloseForm;
 import main.rem.otdel.MainRemOtdel;
 import main.rem.otdel.UpdatesDataInForms;
 import net.proteanit.sql.DbUtils;
+import spravochn.manufacture.ManufacturerAddUpdate;
+import spravochn.typeofcrash.TypeCrashAddUpdate;
+import spravochn.typeofdevice.TypeDeviceAddUpdate;
 
 /**
  *
@@ -31,17 +36,24 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
      * Creates new form Orders
      */
     private int PK;
+    private int PKClient;
+    private boolean isCreateNew = true;
+
     public Orders(int PK) {
         initComponents();
-        this.PK=PK;
-        addDataInTable();    
+        this.PK = PK;
+        addDataInTable();
     }
 
     @Override
     public void addDataInTable() {
-
+        this.setEnabled(true);
         ResultSet resSet = null;
         ResultSet resSet2 = null;
+        UIManager.put("OptionPane.yesButtonText", "Да");
+        UIManager.put("OptionPane.noButtonText", "Нет");
+        UIManager.put("OptionPane.cancelButtonText", "Отмена");
+        UIManager.put("OptionPane.okButtonText", "Готово");
         try {
             resSet = MainRemOtdel.st.executeQuery("select myorder.PK_ORDER,myorder.NUMOFORDER,"
                     + "TO_CHAR(myorder.TIMETOACCEPT, 'DD.MM.YYYY'),"
@@ -50,7 +62,8 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     + ",myorder.PK_STATUS,"
                     + " status.NAMEOFSTATUS,"
                     + " myorder.PK_CLIENT,"
-                    + " manager.FAMOFMANAGER || ' ' || manager.NAMEOFMANAGER  || ' ' || manager.OTCOFMANAGER"
+                    + " client.FAMOFCLIENT || ' ' || client.NAMEOFCLIENT  || ' ' || client.OTCOFCLIENT"
+                    // + " manager.FAMOFMANAGER || ' ' || manager.NAMEOFMANAGER  || ' ' || manager.OTCOFMANAGER"
                     + " from myorder "
                     + " inner join status on status.PK_status=myorder.PK_status"
                     + " inner join manager on manager.PK_manager=myorder.PK_manager"
@@ -64,7 +77,8 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     + ",myorder.PK_STATUS,"
                     + " status.NAMEOFSTATUS,"
                     + " myorder.PK_CLIENT,"
-                    + " manager.FAMOFMANAGER || ' ' || manager.NAMEOFMANAGER  || ' ' || manager.OTCOFMANAGER"
+                    + " client.FAMOFCLIENT || ' ' || client.NAMEOFCLIENT  || ' ' || client.OTCOFCLIENT"
+                    // + " manager.FAMOFMANAGER || ' ' || manager.NAMEOFMANAGER  || ' ' || manager.OTCOFMANAGER"
                     + " from myorder "
                     + " inner join status on status.PK_status=myorder.PK_status"
                     + " inner join manager on manager.PK_manager=myorder.PK_manager"
@@ -78,7 +92,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable1.getColumnModel().getColumn(1).setHeaderValue("Номер");
         jTable1.getColumnModel().getColumn(2).setHeaderValue("Дата создания");
         jTable1.getColumnModel().getColumn(3).setHeaderValue("Дата завершения");
-        jTable1.getColumnModel().getColumn(4).setHeaderValue("Стоимость заказа");
+        jTable1.getColumnModel().getColumn(4).setHeaderValue("Стоимость");
         jTable1.getColumnModel().getColumn(5).setHeaderValue("Тип");
         jTable1.getColumnModel().getColumn(8).setHeaderValue("Статус");
         jTable1.getColumnModel().getColumn(10).setHeaderValue("Клиент");
@@ -100,11 +114,23 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable1.getColumnModel().getColumn(9).setMinWidth(0);
         jTable1.getColumnModel().getColumn(9).setPreferredWidth(0);
 
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            if (jTable1.getValueAt(i, 5).toString().equals("0")) {
+                jTable1.setValueAt("Гарантийный", i, 5);
+            } else {
+                if (jTable1.getValueAt(i, 5).toString().equals("1")) {
+                    jTable1.setValueAt("Не гарантийный", i, 5);
+                } else {
+                    jTable1.setValueAt("Неизвестно", i, 5);
+                }
+            }
+        }
+
         //
         jTable2.getColumnModel().getColumn(1).setHeaderValue("Номер");
         jTable2.getColumnModel().getColumn(2).setHeaderValue("Дата создания");
         jTable2.getColumnModel().getColumn(3).setHeaderValue("Дата завершения");
-        jTable2.getColumnModel().getColumn(4).setHeaderValue("Стоимость заказа");
+        jTable2.getColumnModel().getColumn(4).setHeaderValue("Стоимость");
         jTable2.getColumnModel().getColumn(5).setHeaderValue("Тип");
         jTable2.getColumnModel().getColumn(8).setHeaderValue("Статус");
         jTable2.getColumnModel().getColumn(10).setHeaderValue("Клиент");
@@ -126,52 +152,74 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable2.getColumnModel().getColumn(9).setMinWidth(0);
         jTable2.getColumnModel().getColumn(9).setPreferredWidth(0);
 
-        jDateChooser1.setDate(new Date());
+        for (int i = 0; i < jTable2.getRowCount(); i++) {
+            if (jTable2.getValueAt(i, 5).toString().equals("0")) {
+                jTable2.setValueAt("Гарантийный", i, 5);
+            } else {
+                if (jTable2.getValueAt(i, 5).toString().equals("1")) {
+                    jTable2.setValueAt("Не гарантийный", i, 5);
+                } else {
+                    jTable2.setValueAt("Неизвестно", i, 5);
+                }
+            }
+        }
+
+        jDateChooserAddDate.setDateFormatString("dd.MM.yyyy");
+        jDateChooserAddDate.setDate(new Date());
+        JTextFieldDateEditor editor2 = (JTextFieldDateEditor) jDateChooserAddDate.getDateEditor();
+        editor2.setEditable(false);
 
         ResultSet resSetCrash = null;
         pkCrash = new ArrayList<String>();
         valueCrash = new ArrayList<String>();
-        
+
         ResultSet resSetProizv = null;
         pkProizv = new ArrayList<String>();
         valueProizv = new ArrayList<String>();
-        
+
         ResultSet resTypeDevice = null;
         pkTypeDevice = new ArrayList<String>();
         valueTypeDevice = new ArrayList<String>();
         try {
             //тип поломки
             resSetCrash = MainRemOtdel.st.executeQuery("select * from typeofcrash");
-            TableModel  tableModel = DbUtils.resultSetToTableModel(resSetCrash);
-            for(int i=0;i<tableModel.getRowCount();i++){
+            TableModel tableModel = DbUtils.resultSetToTableModel(resSetCrash);
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
                 pkCrash.add(tableModel.getValueAt(i, 0).toString());
                 valueCrash.add(tableModel.getValueAt(i, 1).toString());
             }
             jComboBoxTypeCrash.setModel(new DefaultComboBoxModel(valueCrash.toArray()));
-            
+
             //производитель
             resSetProizv = MainRemOtdel.st.executeQuery("select * from manufacturer");
             tableModel = DbUtils.resultSetToTableModel(resSetProizv);
-            for(int i=0;i<tableModel.getRowCount();i++){
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
                 pkProizv.add(tableModel.getValueAt(i, 0).toString());
                 valueProizv.add(tableModel.getValueAt(i, 1).toString());
             }
             jComboBoxManufacturers.setModel(new DefaultComboBoxModel(valueProizv.toArray()));
-            
+
             //тип устройства
             resSetProizv = MainRemOtdel.st.executeQuery("select * from typeofdevice");
             tableModel = DbUtils.resultSetToTableModel(resSetProizv);
-            for(int i=0;i<tableModel.getRowCount();i++){
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
                 pkTypeDevice.add(tableModel.getValueAt(i, 0).toString());
                 valueTypeDevice.add(tableModel.getValueAt(i, 1).toString());
             }
             jComboBoxTypeDevice.setModel(new DefaultComboBoxModel(valueTypeDevice.toArray()));
-            
-            
+
             jComboBoxTypeCrash.setSelectedIndex(-1);
             jComboBoxTypeDevice.setSelectedIndex(-1);
             jComboBoxManufacturers.setSelectedIndex(-1);
 
+            ArrayList<String> type = new ArrayList<String>();
+            type.add("Гарантийный");
+            type.add("Не гарантийный");
+            jComboBoxType.setModel(new DefaultComboBoxModel(type.toArray()));
+            jComboBoxType.setSelectedIndex(-1);
+            //
+            correctSizeTable(jTable2);
+            correctSizeTable(jTable1);
         } catch (SQLException ex) {
             Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -183,6 +231,45 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
     ArrayList<String> valueProizv;
     ArrayList<String> pkTypeDevice;
     ArrayList<String> valueTypeDevice;
+
+    public void correctSizeTable(javax.swing.JTable jTable) {
+        jTable.getColumnModel().getColumn(1).setMaxWidth(60);
+        jTable.getColumnModel().getColumn(1).setMinWidth(60);
+        jTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+        //
+        jTable.getColumnModel().getColumn(2).setMaxWidth(100);
+        jTable.getColumnModel().getColumn(2).setMinWidth(100);
+        jTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        //
+        jTable.getColumnModel().getColumn(3).setMaxWidth(100);
+        jTable.getColumnModel().getColumn(3).setMinWidth(100);
+        jTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+        //
+        jTable.getColumnModel().getColumn(4).setMaxWidth(90);
+        jTable.getColumnModel().getColumn(4).setMinWidth(90);
+        jTable.getColumnModel().getColumn(4).setPreferredWidth(90);
+        //
+        jTable.getColumnModel().getColumn(5).setMaxWidth(110);
+        jTable.getColumnModel().getColumn(5).setMinWidth(110);
+        jTable.getColumnModel().getColumn(5).setPreferredWidth(110);
+        //
+        jTable.getColumnModel().getColumn(8).setMaxWidth(150);
+        jTable.getColumnModel().getColumn(8).setMinWidth(150);
+        jTable.getColumnModel().getColumn(8).setPreferredWidth(150);
+//
+        jTable.getColumnModel().getColumn(10).setMaxWidth(200);
+        jTable.getColumnModel().getColumn(10).setMinWidth(200);
+        jTable.getColumnModel().getColumn(10).setPreferredWidth(200);
+//
+        //jTable.getColumnModel().getColumn(2).setPreferredWidth(20);
+        //jTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+        //jTable.getColumnModel().getColumn(4).setPreferredWidth(20);
+        //jTable.getColumnModel().getColumn(5).setPreferredWidth(25);
+        // jTable.getColumnModel().getColumn(8).setPreferredWidth(25);
+       // jTable.getColumnModel().getColumn(10).setPreferredWidth(100);
+       // jTable.getColumnModel().getColumn(10).setWidth(150);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -218,6 +305,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTextFieldAddOtch = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldAddTelefon = new javax.swing.JTextField();
+        jButtonChooseExist = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jComboBoxManufacturers = new javax.swing.JComboBox<String>();
         jLabel5 = new javax.swing.JLabel();
@@ -227,10 +315,15 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jComboBoxTypeDevice = new javax.swing.JComboBox<String>();
         jLabel8 = new javax.swing.JLabel();
         jComboBoxTypeCrash = new javax.swing.JComboBox<String>();
+        jButtonAddTypeOfDevice = new javax.swing.JButton();
+        jButtonAddManufacturer = new javax.swing.JButton();
+        jButtonAddTypeOfCrash = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jButtonAccept = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooserAddDate = new com.toedter.calendar.JDateChooser();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBoxType = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable( )
@@ -302,7 +395,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Выдача", jPanel2);
@@ -323,29 +416,32 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
 
         jLabel4.setText("Телефон");
 
+        jButtonChooseExist.setText("Выбрать существующего пользователя");
+        jButtonChooseExist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonChooseExistActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldAddName, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                            .addComponent(jTextFieldAddFam)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldAddOtch)
-                            .addComponent(jTextFieldAddTelefon))))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonChooseExist, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTextFieldAddName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                        .addComponent(jTextFieldAddOtch, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jTextFieldAddTelefon, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jTextFieldAddFam)))
                 .addGap(12, 12, 12))
         );
         jPanel3Layout.setVerticalGroup(
@@ -360,14 +456,16 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldAddName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldAddOtch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextFieldAddTelefon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(62, Short.MAX_VALUE))
+                    .addComponent(jTextFieldAddOtch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldAddTelefon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonChooseExist)
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Устройство"));
@@ -380,6 +478,27 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
 
         jLabel8.setText("Тип поломки");
 
+        jButtonAddTypeOfDevice.setText("Добавить тип устройства");
+        jButtonAddTypeOfDevice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddTypeOfDeviceActionPerformed(evt);
+            }
+        });
+
+        jButtonAddManufacturer.setText("Добавить производителя");
+        jButtonAddManufacturer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddManufacturerActionPerformed(evt);
+            }
+        });
+
+        jButtonAddTypeOfCrash.setText("Добавить тип поломки");
+        jButtonAddTypeOfCrash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddTypeOfCrashActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -387,18 +506,23 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldModel, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBoxManufacturers, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxTypeCrash, 0, 271, Short.MAX_VALUE)
+                            .addComponent(jComboBoxTypeDevice, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldModel)))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jComboBoxManufacturers, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBoxTypeCrash, 0, 271, Short.MAX_VALUE)
-                        .addComponent(jComboBoxTypeDevice, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jButtonAddTypeOfDevice, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                        .addComponent(jButtonAddManufacturer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonAddTypeOfCrash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,7 +543,13 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jComboBoxTypeCrash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(jButtonAddTypeOfDevice)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonAddManufacturer)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAddTypeOfCrash)
+                .addGap(9, 9, 9))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Заказ"));
@@ -433,6 +563,8 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             }
         });
 
+        jLabel10.setText("Тип заказа");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -441,21 +573,28 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addContainerGap()
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDateChooserAddDate, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addGap(37, 37, 37)
+                .addComponent(jComboBoxType, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jComboBoxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel9)
+                        .addComponent(jDateChooserAddDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -468,7 +607,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -481,7 +620,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Добавление", jPanel1);
@@ -500,6 +639,11 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jScrollPane2.setViewportView(jTable2);
 
         jButton3.setText("Редактировать");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -508,8 +652,8 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -518,8 +662,8 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addGap(41, 41, 41))
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Просмотр всех заказов", jPanel6);
@@ -618,13 +762,130 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         this.dispose();
     }//GEN-LAST:event_jMenuCloseActionPerformed
 
+    //добавление заказа
     private void jButtonAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAcceptActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonAcceptActionPerformed
 
-    private void jTextFieldAddOtchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddOtchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldAddOtchActionPerformed
+        if (jTextFieldAddFam.equals("") || jTextFieldAddName.equals("") || jTextFieldAddOtch.equals("")
+                || jTextFieldAddTelefon.equals("")
+                || jComboBoxTypeDevice.getSelectedIndex() == -1
+                || jComboBoxManufacturers.getSelectedIndex() == -1
+                || jComboBoxTypeCrash.getSelectedIndex() == -1
+                || jComboBoxType.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(this, "Пожалуйста заполните все поля");
+            return;
+        }
+
+        if (jTextFieldAddTelefon.getText().length() != 12 || jTextFieldAddTelefon.getText().charAt(0) != '+') {
+            JOptionPane.showMessageDialog(this, "Неверный номер телефона");
+            return;
+        }
+
+        String textFam = jTextFieldAddFam.getText();
+        String textName = jTextFieldAddName.getText();
+        String textOtch = jTextFieldAddOtch.getText();
+        String textTelefon = jTextFieldAddTelefon.getText();
+        //проверка по номеру телефона
+        try {
+            ResultSet resSet = MainRemOtdel.st.executeQuery("SELECT PK_Client,NameOfClient,FamOfClient,OtcOfClient  "
+                    + " from SERVERADM.client "
+                    + " WHERE NUMBEROFPHONE= '" + textTelefon + "'"
+            );
+
+            if (resSet.next() && isCreateNew == true) {
+                int reply = JOptionPane.showConfirmDialog(null, "Пользователь с данным номером телефона уже существует:\n"
+                        + " " + resSet.getString(3) + " " + resSet.getString(2) + " " + resSet.getString(4) + "\n"
+                        + " Хотите выбрать его?", "Выбор", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    jTextFieldAddFam.setText(resSet.getString(3));
+                    jTextFieldAddName.setText(resSet.getString(2));
+                    jTextFieldAddOtch.setText(resSet.getString(4));
+                    PKClient = Integer.parseInt(resSet.getString(1));
+                    isCreateNew = false;
+                }
+            }
+            //добавление клиента
+            if (isCreateNew == true) {
+                resSet = MainRemOtdel.st.executeQuery("INSERT INTO SERVERADM.CLIENT (NAMEOFCLIENT, FAMOFCLIENT, OTCOFCLIENT, NUMBEROFPHONE) "
+                        + "VALUES ('" + textName + "', '" + textFam + "', '" + textOtch + "', '" + textTelefon + "')"
+                );
+                resSet = MainRemOtdel.st.executeQuery("select SEQCLIENT.currval from dual");
+                int pkZapros = 0;
+                if (resSet.next()) {
+                    PKClient = resSet.getInt(1);
+                }
+            }
+
+            //добавление заказа
+            int typeOfOrder = jComboBoxType.getSelectedIndex();
+            Date dateChooserAddDate = jDateChooserAddDate.getDate();
+            java.sql.Date date = new java.sql.Date(dateChooserAddDate.getTime());
+            resSet = MainRemOtdel.st.executeQuery("INSERT INTO SERVERADM.MYORDER "
+                    + "(NUMOFORDER, TIMETOACCEPT, TIMETODELIVERY, COSTOFORDER, TYPEOFORDER, PK_STATUS, PK_MANAGER, PK_CLIENT) "
+                    + "VALUES (SeqOrderNumber.nextval,"
+                    + "TO_DATE('" + date + "', 'YYYY-MM-DD'),"
+                    + "null,"
+                    + " '0',"
+                    + " '" + typeOfOrder + "',"
+                    + " '21',"
+                    + " '" + PK + "',"
+                    + " '" + PKClient + "')"
+            );
+            resSet = MainRemOtdel.st.executeQuery("select SEQMYORDER.currval from dual");
+            int pkOrder = 0;
+            if (resSet.next()) {
+                pkOrder = resSet.getInt(1);
+            }
+            //добавление устройства
+            resSet = MainRemOtdel.st.executeQuery("INSERT INTO SERVERADM.DEVICE "
+                    + "(MODELOFDEVICE, PK_TYPEOFDEVICE, PK_CRASH, PK_MANUFACTURER, PK_ORDER) "
+                    + "VALUES ("
+                    + "'" + jTextFieldModel.getText() + "', "
+                    + " '" + pkTypeDevice.get(jComboBoxTypeDevice.getSelectedIndex()) + "',"
+                    + " '" + pkCrash.get(jComboBoxTypeCrash.getSelectedIndex()) + "',"
+                    + " '" + pkProizv.get(jComboBoxManufacturers.getSelectedIndex()) + "',"
+                    + " '" + pkOrder + "'"
+                    + ")"
+            );
+            JOptionPane.showMessageDialog(this, "Заказ успешно создан!");
+            resetElements();
+            this.addDataInTable();
+            isCreateNew = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Ошибка: Невозможно выполнить операцию(возможно введены неверные данные)");
+        }
+
+    }//GEN-LAST:event_jButtonAcceptActionPerformed
+    public void resetElements() {
+        jComboBoxManufacturers.setSelectedIndex(-1);
+        jComboBoxTypeCrash.setSelectedIndex(-1);
+        jComboBoxTypeDevice.setSelectedIndex(-1);
+        jComboBoxType.setSelectedIndex(-1);
+        jTextFieldAddFam.setText("");
+        jTextFieldAddName.setText("");
+        jTextFieldAddOtch.setText("");
+        jTextFieldAddTelefon.setText("");
+        jTextFieldModel.setText("");
+    }
+
+    public void setUser(int pkClient) {
+        try {
+            ResultSet resSet = MainRemOtdel.st.executeQuery("SELECT PK_Client,NameOfClient,FamOfClient,OtcOfClient,NUMBEROFPHONE  "
+                    + " from SERVERADM.client "
+                    + " WHERE PK_Client= '" + pkClient + "'"
+            );
+            resSet.next();
+            jTextFieldAddFam.setText(resSet.getString(3));
+            jTextFieldAddName.setText(resSet.getString(2));
+            jTextFieldAddOtch.setText(resSet.getString(4));
+            jTextFieldAddTelefon.setText(resSet.getString(5));
+            PKClient = Integer.parseInt(resSet.getString(1));
+            isCreateNew = false;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     //именить статус заказа на выдан и поставить сегодняшнюю дату
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (jTable1.getSelectedRow() == -1) {
@@ -645,16 +906,68 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (jTable2.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Выделите заказ для изминения!");
+        } else {
+            Object PK = jTable2.getValueAt(jTable2.getSelectedRow(), 0);
+            int primKey = Integer.parseInt(PK.toString());
+            OrderUpdate orderUpdate = new OrderUpdate(1, primKey);
+            orderUpdate.setListenerCloseForm(new ListenerCloseForm(this));
+            orderUpdate.setVisible(true);
+            this.setEnabled(false);
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextFieldAddOtchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddOtchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldAddOtchActionPerformed
+
+    private void jButtonAddTypeOfDeviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddTypeOfDeviceActionPerformed
+        TypeDeviceAddUpdate typeDeviceAddUpdate = new TypeDeviceAddUpdate(0, -1);
+        typeDeviceAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
+        typeDeviceAddUpdate.setVisible(true);
+        this.setEnabled(false);
+    }//GEN-LAST:event_jButtonAddTypeOfDeviceActionPerformed
+
+    private void jButtonAddTypeOfCrashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddTypeOfCrashActionPerformed
+        TypeCrashAddUpdate typeCrashAddUpdate = new TypeCrashAddUpdate(0, -1);
+        typeCrashAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
+        typeCrashAddUpdate.setVisible(true);
+        this.setEnabled(false);
+    }//GEN-LAST:event_jButtonAddTypeOfCrashActionPerformed
+
+    private void jButtonAddManufacturerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddManufacturerActionPerformed
+        ManufacturerAddUpdate manufacturerAddUpdate = new ManufacturerAddUpdate(0, -1);
+        manufacturerAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
+        manufacturerAddUpdate.setVisible(true);
+        this.setEnabled(false);
+    }//GEN-LAST:event_jButtonAddManufacturerActionPerformed
+
+    private void jButtonChooseExistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChooseExistActionPerformed
+        ChooseExistClient chooseExistClient = new ChooseExistClient(this);
+        chooseExistClient.setListenerCloseForm(new ListenerCloseForm(this));
+        chooseExistClient.setVisible(true);
+        this.setEnabled(false);
+    }//GEN-LAST:event_jButtonChooseExistActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonAccept;
+    private javax.swing.JButton jButtonAddManufacturer;
+    private javax.swing.JButton jButtonAddTypeOfCrash;
+    private javax.swing.JButton jButtonAddTypeOfDevice;
+    private javax.swing.JButton jButtonChooseExist;
     private javax.swing.JComboBox<String> jComboBoxManufacturers;
+    private javax.swing.JComboBox jComboBoxType;
     private javax.swing.JComboBox<String> jComboBoxTypeCrash;
     private javax.swing.JComboBox<String> jComboBoxTypeDevice;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooserAddDate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

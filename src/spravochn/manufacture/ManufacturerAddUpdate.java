@@ -24,7 +24,7 @@ public class ManufacturerAddUpdate extends javax.swing.JFrame {
     private int addOrUpdate;
     private int PK;
 
-    ManufacturerAddUpdate(int addOrUpdate, int PK) {
+    public ManufacturerAddUpdate(int addOrUpdate, int PK) {
         initComponents();
         this.addOrUpdate = addOrUpdate;
         if (addOrUpdate == 1) {

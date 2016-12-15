@@ -256,18 +256,11 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable.getColumnModel().getColumn(8).setMaxWidth(150);
         jTable.getColumnModel().getColumn(8).setMinWidth(150);
         jTable.getColumnModel().getColumn(8).setPreferredWidth(150);
-//
+        //
         jTable.getColumnModel().getColumn(10).setMaxWidth(200);
         jTable.getColumnModel().getColumn(10).setMinWidth(200);
         jTable.getColumnModel().getColumn(10).setPreferredWidth(200);
-//
-        //jTable.getColumnModel().getColumn(2).setPreferredWidth(20);
-        //jTable.getColumnModel().getColumn(3).setPreferredWidth(20);
-        //jTable.getColumnModel().getColumn(4).setPreferredWidth(20);
-        //jTable.getColumnModel().getColumn(5).setPreferredWidth(25);
-        // jTable.getColumnModel().getColumn(8).setPreferredWidth(25);
-       // jTable.getColumnModel().getColumn(10).setPreferredWidth(100);
-       // jTable.getColumnModel().getColumn(10).setWidth(150);
+
     }
 
     /**

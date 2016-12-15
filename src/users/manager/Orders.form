@@ -259,12 +259,10 @@
                           <EmptySpace pref="34" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="jButtonChooseExist" pref="266" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldAddName" alignment="1" pref="266" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldAddOtch" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldAddTelefon" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldAddFam" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jTextFieldAddName" alignment="1" pref="266" max="32767" attributes="0"/>
+                              <Component id="jTextFieldAddOtch" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextFieldAddTelefon" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextFieldAddFam" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       </Group>

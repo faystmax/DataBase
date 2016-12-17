@@ -48,6 +48,17 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
 
         ResultSet resSet = null;
         try {
+            resSet = MainRemOtdel.st.executeQuery("select famofengineer,nameofengineer,otchofengineer from engineer"
+                    + " where pk_engineer=" + PK);
+            if (resSet.next()) {
+                jLabelFIO.setText("Инженер:" + resSet.getString(1) + " "
+                        + resSet.getString(2) + " "
+                        + resSet.getString(3));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EngineerForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
             resSet = MainRemOtdel.st.executeQuery("select storekeeper.PK_storekeeper,"
                     + " storekeeper.FAMOFstorekeeper || ' ' || storekeeper.NAMEOFstorekeeper  || ' ' || storekeeper.OTCOFstorekeeper"
                     + " from storekeeper");
@@ -92,17 +103,21 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         this.setEnabled(true);
         ResultSet resSet = null;
         try {
-            resSet = MainRemOtdel.st.executeQuery("select repair.PK_repair, TO_CHAR(repair.startdate, 'DD.MM.YYYY'),"
-                    + " TO_CHAR(repair.enddate, 'DD.MM.YYYY'),"
+            resSet = MainRemOtdel.st.executeQuery("select repair.PK_repair,"
                     + " typeofdevice.nameoftype,"
                     + " manufacturer.nameofmanufacturer,"
-                    + " device.modelofdevice"
+                    + " device.modelofdevice,"
+                    + " TO_CHAR(repair.startdate, 'DD.MM.YYYY'),"
+                    + " TO_CHAR(repair.enddate, 'DD.MM.YYYY'),"
+                    + "status.nameofStatus "
                     //+ " engineer.FAMOFengineer || ' ' || engineer.NAMEOFengineer  || ' ' || engineer.OTChOFengineer"
                     + " from repair "
                     + " inner join engineer on repair.PK_engineer=engineer.PK_engineer"
                     + " inner join device on repair.PK_device=device.PK_device"
                     + " inner join manufacturer on device.PK_manufacturer=manufacturer.PK_manufacturer"
                     + " inner join typeofdevice on device.PK_typeofdevice=typeofdevice.PK_typeofdevice"
+                    + " inner join myorder on myorder.PK_order=device.PK_order"
+                    + " inner join status on status.PK_status=myOrder.PK_status"
             );
         } catch (SQLException ex) {
             Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,12 +127,12 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
-        jTable1.getColumnModel().getColumn(1).setHeaderValue("Начало ремонта");
-        jTable1.getColumnModel().getColumn(2).setHeaderValue("Конец ремонта");
-        jTable1.getColumnModel().getColumn(3).setHeaderValue("Тип");
-        jTable1.getColumnModel().getColumn(4).setHeaderValue("Производитель");
-        jTable1.getColumnModel().getColumn(5).setHeaderValue("Модель");
-        //jTable1.getColumnModel().getColumn(6).setHeaderValue("Инженер");
+        jTable1.getColumnModel().getColumn(1).setHeaderValue("Тип");
+        jTable1.getColumnModel().getColumn(2).setHeaderValue("Производитель");
+        jTable1.getColumnModel().getColumn(3).setHeaderValue("Модель");
+        jTable1.getColumnModel().getColumn(4).setHeaderValue("Начало ремонта");
+        jTable1.getColumnModel().getColumn(5).setHeaderValue("Конец ремонта");
+        jTable1.getColumnModel().getColumn(6).setHeaderValue("Статус");
 
         try {
             resSet = MainRemOtdel.st.executeQuery("select repair.PK_repair,"
@@ -125,14 +140,18 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                     + " manufacturer.nameofmanufacturer,"
                     + " device.modelofdevice,"
                     + " TO_CHAR(repair.startdate, 'DD.MM.YYYY'),"
-                    + " TO_CHAR(repair.enddate, 'DD.MM.YYYY')"
+                    + " TO_CHAR(repair.enddate, 'DD.MM.YYYY'),"
+                    + "status.nameofStatus "
                     // + " engineer.FAMOFengineer || ' ' || engineer.NAMEOFengineer  || ' ' || engineer.OTChOFengineer"
                     + " from repair "
                     + " inner join engineer on repair.PK_engineer=engineer.PK_engineer"
                     + " inner join device on repair.PK_device=device.PK_device"
                     + " inner join manufacturer on device.PK_manufacturer=manufacturer.PK_manufacturer"
                     + " inner join typeofdevice on device.PK_typeofdevice=typeofdevice.PK_typeofdevice"
-                    + " where repair.PK_engineer=" + PK);
+                    + " inner join myorder on myorder.PK_order=device.PK_order"
+                    + " inner join status on status.PK_status=myOrder.PK_status"
+                    + " where repair.PK_engineer=" + PK
+                    + " and (status.pk_status=3 or status.pk_status=4)");
         } catch (SQLException ex) {
             Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -141,12 +160,12 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jTable2.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable2.getColumnModel().getColumn(0).setMinWidth(0);
         jTable2.getColumnModel().getColumn(0).setPreferredWidth(0);
-        jTable2.getColumnModel().getColumn(1).setHeaderValue("Начало ремонта");
-        jTable2.getColumnModel().getColumn(2).setHeaderValue("Конец ремонта");
-        jTable2.getColumnModel().getColumn(3).setHeaderValue("Тип");
-        jTable2.getColumnModel().getColumn(4).setHeaderValue("Производитель");
-        jTable2.getColumnModel().getColumn(5).setHeaderValue("Модель");
-        //jTable2.getColumnModel().getColumn(6).setHeaderValue("Инженер");
+        jTable2.getColumnModel().getColumn(1).setHeaderValue("Тип");
+        jTable2.getColumnModel().getColumn(2).setHeaderValue("Производитель");
+        jTable2.getColumnModel().getColumn(3).setHeaderValue("Модель");
+        jTable2.getColumnModel().getColumn(4).setHeaderValue("Начало ремонта");
+        jTable2.getColumnModel().getColumn(5).setHeaderValue("Конец ремонта");
+        jTable2.getColumnModel().getColumn(6).setHeaderValue("Статус");
 
         dtm = new DefaultTableModel();
         jTable3.setModel(dtm);
@@ -192,8 +211,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jLabel4 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jLabelFIO = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -249,10 +267,10 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
             jPanelRemontsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelRemontsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanelRemontsLayout.createSequentialGroup()
-                .addGap(123, 123, 123)
+                .addGap(132, 132, 132)
                 .addComponent(jButtonAdd)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonUpdate)
@@ -453,25 +471,28 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
 
         jTabbedPane.addTab("Создание запроса", jPanelCreateZapros);
 
-        jMenu1.setText("Файл");
-        jMenuBar1.add(jMenu1);
-
-        setJMenuBar(jMenuBar1);
+        jLabelFIO.setText("Фио");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelFIO)
+                        .addGap(284, 284, 284))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane)
+                .addComponent(jLabelFIO)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -612,8 +633,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel jLabelFIO;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelCreateZapros;

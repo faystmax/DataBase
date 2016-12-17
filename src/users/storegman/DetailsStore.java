@@ -65,7 +65,6 @@ public class DetailsStore extends javax.swing.JFrame implements UpdatesDataInFor
 
     @Override
     public void addDataInTable() {
-        this.setEnabled(true);
         ResultSet resSet = null;
         try {
             resSet = MainRemOtdel.st.executeQuery("select PK_detailfromwh, detail.nameofdetail,amount,location"
@@ -156,6 +155,7 @@ public class DetailsStore extends javax.swing.JFrame implements UpdatesDataInFor
         jButtonDelete = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItemClose = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -345,6 +345,15 @@ public class DetailsStore extends javax.swing.JFrame implements UpdatesDataInFor
         jTabbedPane1.addTab("Детали", jPanel1);
 
         jMenu1.setText("Файл");
+
+        jMenuItemClose.setText("Закрыть");
+        jMenuItemClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCloseActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemClose);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Справочники");
@@ -575,7 +584,6 @@ public class DetailsStore extends javax.swing.JFrame implements UpdatesDataInFor
         AddUpdateDetailFromStore addUpdateDetailFromStore = new AddUpdateDetailFromStore(0, -1, PK);
         addUpdateDetailFromStore.setListenerCloseForm(new ListenerCloseForm(this));
         addUpdateDetailFromStore.setVisible(true);
-        this.setEnabled(false);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -588,7 +596,6 @@ public class DetailsStore extends javax.swing.JFrame implements UpdatesDataInFor
             AddUpdateDetailFromStore addUpdateDetailFromStore = new AddUpdateDetailFromStore(1, primKey, PK);
             addUpdateDetailFromStore.setListenerCloseForm(new ListenerCloseForm(this));
             addUpdateDetailFromStore.setVisible(true);
-            this.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
@@ -619,8 +626,12 @@ public class DetailsStore extends javax.swing.JFrame implements UpdatesDataInFor
         // TODO add your handling code here:
         Detail detail = new Detail();
         detail.setVisible(true);
-        this.setEnabled(false);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -634,6 +645,7 @@ public class DetailsStore extends javax.swing.JFrame implements UpdatesDataInFor
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

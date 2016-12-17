@@ -85,7 +85,7 @@
     </Menu>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="&#x417;&#x430;&#x43a;&#x430;&#x437;&#x44b;"/>
   </Properties>
   <SyntheticProperties>
@@ -252,7 +252,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jLabel3" alignment="0" pref="59" max="32767" attributes="0"/>
+                              <Component id="jLabel3" alignment="0" pref="0" max="32767" attributes="0"/>
                               <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                           </Group>
@@ -371,7 +371,7 @@
                                   </Group>
                               </Group>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jButtonAddTypeOfDevice" pref="174" max="32767" attributes="0"/>
+                                  <Component id="jButtonAddTypeOfDevice" max="32767" attributes="0"/>
                                   <Component id="jButtonAddManufacturer" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButtonAddTypeOfCrash" alignment="0" max="32767" attributes="0"/>
                               </Group>
@@ -535,7 +535,7 @@
                                   <Component id="jDateChooserAddDate" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

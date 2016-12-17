@@ -20,6 +20,8 @@ import users.storegman.DetailsStore;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import main.rem.otdel.ListenerCloseForm;
+import spravochn.detail.DetailAddUpdate;
 
 /**
  *
@@ -553,14 +555,46 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
 
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         // TODO add your handling code here:
+        RepairAddUpdate repairAddUpdate = new RepairAddUpdate(0, -1, PK);
+        repairAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
+        repairAddUpdate.setVisible(true);
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
         // TODO add your handling code here:
+        if (jTable1.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Выделите запись для изменения");
+        } else {
+            Object PKObj = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            int primKey = Integer.parseInt(PKObj.toString());
+            RepairAddUpdate repairAddUpdate = new RepairAddUpdate(1, primKey, PK);
+            repairAddUpdate.setListenerCloseForm(new ListenerCloseForm(this));
+            repairAddUpdate.setVisible(true);
+            this.setEnabled(false);
+        }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
         // TODO add your handling code here:
+        if (jTable1.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Выделите строку для удаления");
+        } else {
+            try {
+                Object PK = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+                int primKey = Integer.parseInt(PK.toString());
+
+                int option = JOptionPane.showConfirmDialog(this, "Вы уверены что хотите удалить запись",
+                        "Удаление записи", JOptionPane.YES_NO_CANCEL_OPTION);
+                if (option == 0) {
+                    MainRemOtdel.st.executeQuery("delete from repair where PK_repair=" + PK);
+                    addDataInTable();
+                }
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Удаление невозможно");
+                Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
 

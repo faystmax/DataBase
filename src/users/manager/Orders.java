@@ -68,7 +68,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     + " inner join status on status.PK_status=myorder.PK_status"
                     + " inner join manager on manager.PK_manager=myorder.PK_manager"
                     + " inner join client on client.PK_client=myorder.PK_client"
-                    + " where myorder.PK_status=26 or myorder.PK_status=27");
+                    + " where myorder.PK_status=6 or myorder.PK_status=7");
             jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
             resSet2 = MainRemOtdel.st.executeQuery("select myorder.PK_ORDER,myorder.NUMOFORDER,"
                     + "TO_CHAR(myorder.TIMETOACCEPT, 'DD.MM.YYYY'),"
@@ -300,14 +300,14 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTextFieldAddTelefon = new javax.swing.JTextField();
         jButtonChooseExist = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jComboBoxManufacturers = new javax.swing.JComboBox<String>();
+        jComboBoxManufacturers = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldModel = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jComboBoxTypeDevice = new javax.swing.JComboBox<String>();
+        jComboBoxTypeDevice = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jComboBoxTypeCrash = new javax.swing.JComboBox<String>();
+        jComboBoxTypeCrash = new javax.swing.JComboBox<>();
         jButtonAddTypeOfDevice = new javax.swing.JButton();
         jButtonAddManufacturer = new javax.swing.JButton();
         jButtonAddTypeOfCrash = new javax.swing.JButton();
@@ -345,7 +345,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         menu2.setLabel("Edit");
         menuBar1.add(menu2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Заказы");
 
         jTabbedPane1.setToolTipText("");
@@ -424,17 +424,16 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonChooseExist, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextFieldAddName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                        .addComponent(jTextFieldAddOtch, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jTextFieldAddTelefon, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jTextFieldAddFam)))
+                    .addComponent(jButtonChooseExist, javax.swing.GroupLayout.PREFERRED_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(jTextFieldAddName, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(jTextFieldAddOtch)
+                    .addComponent(jTextFieldAddTelefon)
+                    .addComponent(jTextFieldAddFam, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(12, 12, 12))
         );
         jPanel3Layout.setVerticalGroup(
@@ -512,7 +511,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                             .addComponent(jComboBoxTypeDevice, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextFieldModel)))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButtonAddTypeOfDevice, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                        .addComponent(jButtonAddTypeOfDevice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAddManufacturer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAddTypeOfCrash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -587,7 +586,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel9)
                         .addComponent(jDateChooserAddDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -819,7 +818,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     + "null,"
                     + " '0',"
                     + " '" + typeOfOrder + "',"
-                    + " '21',"
+                    + " '2',"
                     + " '" + PK + "',"
                     + " '" + PKClient + "')"
             );
@@ -887,7 +886,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             Object PK = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             int primKey = Integer.parseInt(PK.toString());
             try {
-                MainRemOtdel.st.executeQuery("UPDATE SERVERADM.myorder SET  PK_STATUS= " + 27 + " WHERE PK_ORDER=" + PK);
+                MainRemOtdel.st.executeQuery("UPDATE SERVERADM.myorder SET  PK_STATUS= " + 7 + " WHERE PK_ORDER=" + PK);
                 Date datenow = new Date();
                 java.sql.Date date = new java.sql.Date(datenow.getTime());
                 MainRemOtdel.st.executeQuery("UPDATE SERVERADM.myorder SET  myorder.TIMETODELIVERY= TO_DATE('" + date + "', 'YYYY-MM-DD') WHERE PK_ORDER=" + PK);

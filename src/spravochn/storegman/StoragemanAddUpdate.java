@@ -28,10 +28,12 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
         initComponents();
         this.addOrUpdate = addOrUpdate;
         this.PK = PK;
+        jCheckBoxChangeParol.setVisible(false);
         if (addOrUpdate == 1) {
             jButtonAddUpdate.setText("Изменить");
             this.setTitle("Изменить кладовщика");
-
+            ChangePassword(false);
+            jCheckBoxChangeParol.setVisible(true);
             ResultSet resSet = null;
             try {
                 resSet = MainRemOtdel.st.executeQuery("select nameofstorekeeper,otcofstorekeeper,famofstorekeeper,login,password"
@@ -47,7 +49,7 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
                     jTextFieldOtch.setText(resSet.getString(2));
                     jTextFieldFam.setText(resSet.getString(3));
                     jTextFieldLogin.setText(resSet.getString(4));
-                    jTextFieldPassword.setText(resSet.getString(5));
+                    //jTextFieldPassword.setText(resSet.getString(5));
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -81,7 +83,9 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldLogin = new javax.swing.JTextField();
-        jTextFieldPassword = new javax.swing.JTextField();
+        jCheckBoxChangeParol = new javax.swing.JCheckBox();
+        jCheckBoxParol = new javax.swing.JCheckBox();
+        jTextFieldPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Добавление кладовщика");
@@ -115,6 +119,20 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
 
         jLabel5.setText("Пароль");
 
+        jCheckBoxChangeParol.setText("Изменить пароль");
+        jCheckBoxChangeParol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxChangeParolItemStateChanged(evt);
+            }
+        });
+
+        jCheckBoxParol.setText("Показать пароль");
+        jCheckBoxParol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxParolItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -128,18 +146,24 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
                         .addComponent(jButtonAddUpdate))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldFam)
-                            .addComponent(jTextFieldName)
-                            .addComponent(jTextFieldOtch, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addComponent(jTextFieldLogin)
-                            .addComponent(jTextFieldPassword))
+                            .addComponent(jCheckBoxChangeParol)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jCheckBoxParol)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5))
+                                    .addGap(36, 36, 36)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jTextFieldFam)
+                                            .addComponent(jTextFieldName)
+                                            .addComponent(jTextFieldOtch, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                                            .addComponent(jTextFieldLogin))
+                                        .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -162,11 +186,15 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxChangeParol)
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jCheckBoxParol)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancel)
                     .addComponent(jButtonAddUpdate))
@@ -196,7 +224,7 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
             } else {
                 try {
                     MainRemOtdel.st.executeQuery("Insert into SERVERADM.storekeeper (famofstorekeeper,nameofstorekeeper,otcofstorekeeper,login,password) values "
-                            + "('" + textFam + "','" + textName + "','" + textOcth + "','" + textLogin + "','" + textPassword + "')");
+                            + "('" + textFam + "','" + textName + "','" + textOcth + "','" + textLogin + "','" + textPassword.hashCode() + "')");
                     JOptionPane.showMessageDialog(this, "Запись успешно добавлена");
                     listenerCloseForm.event();
                 } catch (SQLException ex) {
@@ -213,15 +241,22 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
                 String textFam = jTextFieldFam.getText();
                 String textName = jTextFieldName.getText();
                 String textOcth = jTextFieldOtch.getText();
-                if (textLogin.equals("") || textPassword.equals("") || textFam.equals("")
+                if (textLogin.equals("") || (textPassword.equals("") && jCheckBoxChangeParol.isSelected() == true) || textFam.equals("")
                         || textName.equals("") || textOcth.equals("")) {
                     JOptionPane.showMessageDialog(this, "Невозможно изменить на пустое поле");
                 } else {
                     try {
-                        MainRemOtdel.st.executeQuery("UPDATE SERVERADM.storekeeper SET famofstorekeeper = '" + textFam + "', "
-                                + "nameofstorekeeper = '" + textName + "', otcofstorekeeper = '" + textOcth + "',"
-                                + " login='" + textLogin + "',password='" + textPassword + "' WHERE PK_storekeeper=" + PK
-                        );
+                        if (jCheckBoxChangeParol.isSelected() == true) {
+                            MainRemOtdel.st.executeQuery("UPDATE SERVERADM.storekeeper SET famofstorekeeper = '" + textFam + "', "
+                                    + "nameofstorekeeper = '" + textName + "', otcofstorekeeper = '" + textOcth + "',"
+                                    + " login='" + textLogin + "',password='" + textPassword.hashCode() + "' WHERE PK_storekeeper=" + PK
+                            );
+                        } else {
+                            MainRemOtdel.st.executeQuery("UPDATE SERVERADM.storekeeper SET famofstorekeeper = '" + textFam + "', "
+                                    + "nameofstorekeeper = '" + textName + "', otcofstorekeeper = '" + textOcth + "',"
+                                    + " login='" + textLogin + "' WHERE PK_storekeeper=" + PK
+                            );
+                        }
                         JOptionPane.showMessageDialog(this, "Запись успешно изменена");
                         listenerCloseForm.event();
                     } catch (SQLException ex) {
@@ -238,10 +273,34 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
         listenerCloseForm.event();
     }//GEN-LAST:event_formWindowClosing
 
+    private void jCheckBoxParolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxParolItemStateChanged
+        if (jCheckBoxParol.isSelected() == true) {
+            jTextFieldPassword.setEchoChar((char) 0);
+        } else {
+            jTextFieldPassword.setEchoChar((char) 8226);
+        }
+    }//GEN-LAST:event_jCheckBoxParolItemStateChanged
+
+    private void jCheckBoxChangeParolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxChangeParolItemStateChanged
+        if (jCheckBoxChangeParol.isSelected() == true) {
+            ChangePassword(true);
+        } else {
+            ChangePassword(false);
+        }
+    }//GEN-LAST:event_jCheckBoxChangeParolItemStateChanged
+
+    public void ChangePassword(boolean value) {
+        jTextFieldPassword.setEnabled(value);
+        jCheckBoxParol.setEnabled(value);
+        jLabel5.setEnabled(value);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddUpdate;
     private javax.swing.JButton jButtonCancel;
+    private javax.swing.JCheckBox jCheckBoxChangeParol;
+    private javax.swing.JCheckBox jCheckBoxParol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -251,6 +310,6 @@ public class StoragemanAddUpdate extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldLogin;
     private javax.swing.JTextField jTextFieldName;
     private javax.swing.JTextField jTextFieldOtch;
-    private javax.swing.JTextField jTextFieldPassword;
+    private javax.swing.JPasswordField jTextFieldPassword;
     // End of variables declaration//GEN-END:variables
 }

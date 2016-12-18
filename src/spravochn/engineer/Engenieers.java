@@ -45,7 +45,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
         this.setEnabled(true);
         ResultSet resSet = null;
         try {
-            resSet = MainRemOtdel.st.executeQuery("select * from engineer");
+            resSet = MainRemOtdel.st.executeQuery("select PK_ENGINEER,FAMOFENGINEER,NAMEOFENGINEER,OTCHOFENGINEER from engineer");
         } catch (SQLException ex) {
             Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -53,6 +53,9 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
+        jTable1.getColumnModel().getColumn(1).setHeaderValue("Фамилия");
+        jTable1.getColumnModel().getColumn(2).setHeaderValue("Имя");
+        jTable1.getColumnModel().getColumn(3).setHeaderValue("Отчество");
        
     }
 
@@ -175,7 +178,7 @@ public class Engenieers extends javax.swing.JFrame implements UpdatesDataInForms
                 Object PK = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
                 int primKey = Integer.parseInt(PK.toString());
 
-                int option = JOptionPane.showConfirmDialog(this, "Вы уверены что хотите удалить запись",
+                int option = JOptionPane.showConfirmDialog(this, "Вы уверены что хотите удалить запись?",
                         "Удаление записи", JOptionPane.YES_NO_CANCEL_OPTION);
                 if (option == 0) {
                     MainRemOtdel.st.executeQuery("delete from engineer where PK_engineer=" + PK);

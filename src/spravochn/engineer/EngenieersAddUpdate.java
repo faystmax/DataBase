@@ -28,10 +28,12 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
         initComponents();
         this.addOrUpdate = addOrUpdate;
         this.PK = PK;
+        jCheckBoxChangeParol.setVisible(false);
         if (addOrUpdate == 1) {
             jButtonAddUpdate.setText("Изменить");
             this.setTitle("Изменить инженера");
-
+            ChangePassword(false);
+            jCheckBoxChangeParol.setVisible(true);
             ResultSet resSet = null;
             try {
                 resSet = MainRemOtdel.st.executeQuery("select nameofengineer,otchofengineer,famofengineer,login,password"
@@ -47,7 +49,7 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
                     jTextFieldOtch.setText(resSet.getString(2));
                     jTextFieldFam.setText(resSet.getString(3));
                     jTextFieldLogin.setText(resSet.getString(4));
-                    jTextFieldPassword.setText(resSet.getString(5));
+                    //jTextFieldPassword.setText(resSet.getString(5));
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -81,7 +83,9 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldLogin = new javax.swing.JTextField();
-        jTextFieldPassword = new javax.swing.JTextField();
+        jCheckBoxParol = new javax.swing.JCheckBox();
+        jTextFieldPassword = new javax.swing.JPasswordField();
+        jCheckBoxChangeParol = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Добавление инженера");
@@ -115,6 +119,20 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
 
         jLabel5.setText("Пароль");
 
+        jCheckBoxParol.setText("Показать пароль");
+        jCheckBoxParol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxParolItemStateChanged(evt);
+            }
+        });
+
+        jCheckBoxChangeParol.setText("Изменить пароль");
+        jCheckBoxChangeParol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxChangeParolItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,32 +140,28 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAddUpdate))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(26, 26, 26)
-                                .addComponent(jTextFieldFam, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButtonCancel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAddUpdate))
+                        .addComponent(jCheckBoxParol, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
                                 .addComponent(jLabel2)
-                                .addGap(62, 62, 62)
-                                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldOtch)
-                                    .addComponent(jTextFieldLogin)
-                                    .addComponent(jTextFieldPassword))))
-                        .addGap(0, 22, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jLabel1))
+                            .addGap(24, 24, 24)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextFieldFam)
+                                .addComponent(jTextFieldName)
+                                .addComponent(jTextFieldOtch, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                .addComponent(jTextFieldLogin)
+                                .addComponent(jTextFieldPassword))))
+                    .addComponent(jCheckBoxChangeParol))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,15 +182,19 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxChangeParol)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxParol)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancel)
                     .addComponent(jButtonAddUpdate))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -185,7 +203,7 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         listenerCloseForm.event();
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonAddUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddUpdateActionPerformed
@@ -202,7 +220,7 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
             } else {
                 try {
                     MainRemOtdel.st.executeQuery("Insert into SERVERADM.engineer (famofengineer,nameofengineer,otchofengineer,login,password) values "
-                            + "('" + textFam + "','" + textName + "','" + textOcth + "','" + textLogin + "','" + textPassword + "')");
+                            + "('" + textFam + "','" + textName + "','" + textOcth + "','" + textLogin + "','" + textPassword.hashCode() + "')");
                     JOptionPane.showMessageDialog(this, "Запись успешно добавлена");
                     listenerCloseForm.event();
                 } catch (SQLException ex) {
@@ -219,15 +237,22 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
                 String textFam = jTextFieldFam.getText();
                 String textName = jTextFieldName.getText();
                 String textOcth = jTextFieldOtch.getText();
-                if (textLogin.equals("") || textPassword.equals("") || textFam.equals("")
+                if (textLogin.equals("") || (textPassword.equals("") && jCheckBoxChangeParol.isSelected() == true) || textFam.equals("")
                         || textName.equals("") || textOcth.equals("")) {
                     JOptionPane.showMessageDialog(this, "Невозможно изменить на пустое поле");
                 } else {
                     try {
-                        MainRemOtdel.st.executeQuery("UPDATE SERVERADM.engineer SET famofengineer = '" + textFam + "', "
-                                + "nameofengineer = '" + textName + "', otchofengineer = '" + textOcth + "',"
-                                + " login='" + textLogin + "',password='" + textPassword + "' WHERE PK_engineer=" + PK
-                        );
+                        if (jCheckBoxChangeParol.isSelected() == true) {
+                            MainRemOtdel.st.executeQuery("UPDATE SERVERADM.engineer SET famofengineer = '" + textFam + "', "
+                                    + "nameofengineer = '" + textName + "', otchofengineer = '" + textOcth + "',"
+                                    + " login='" + textLogin + "',password='" + textPassword.hashCode() + "' WHERE PK_engineer=" + PK
+                            );
+                        } else {
+                            MainRemOtdel.st.executeQuery("UPDATE SERVERADM.engineer SET famofengineer = '" + textFam + "', "
+                                    + "nameofengineer = '" + textName + "', otchofengineer = '" + textOcth + "',"
+                                    + " login='" + textLogin + "' WHERE PK_engineer=" + PK
+                            );
+                        }
                         JOptionPane.showMessageDialog(this, "Запись успешно изменена");
                         listenerCloseForm.event();
                     } catch (SQLException ex) {
@@ -244,10 +269,33 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
         listenerCloseForm.event();
     }//GEN-LAST:event_formWindowClosing
 
+    private void jCheckBoxParolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxParolItemStateChanged
+        if (jCheckBoxParol.isSelected() == true) {
+            jTextFieldPassword.setEchoChar((char) 0);
+        } else {
+            jTextFieldPassword.setEchoChar((char) 8226);
+        }
+    }//GEN-LAST:event_jCheckBoxParolItemStateChanged
+
+    private void jCheckBoxChangeParolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxChangeParolItemStateChanged
+        if (jCheckBoxChangeParol.isSelected() == true) {
+            ChangePassword(true);
+        } else {
+            ChangePassword(false);
+        }
+    }//GEN-LAST:event_jCheckBoxChangeParolItemStateChanged
+
+    public void ChangePassword(boolean value) {
+        jTextFieldPassword.setEnabled(value);
+        jCheckBoxParol.setEnabled(value);
+        jLabel5.setEnabled(value);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddUpdate;
     private javax.swing.JButton jButtonCancel;
+    private javax.swing.JCheckBox jCheckBoxChangeParol;
+    private javax.swing.JCheckBox jCheckBoxParol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -257,6 +305,6 @@ public class EngenieersAddUpdate extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldLogin;
     private javax.swing.JTextField jTextFieldName;
     private javax.swing.JTextField jTextFieldOtch;
-    private javax.swing.JTextField jTextFieldPassword;
+    private javax.swing.JPasswordField jTextFieldPassword;
     // End of variables declaration//GEN-END:variables
 }

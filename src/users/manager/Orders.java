@@ -50,10 +50,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         this.setEnabled(true);
         ResultSet resSet = null;
         ResultSet resSet2 = null;
-        UIManager.put("OptionPane.yesButtonText", "Да");
-        UIManager.put("OptionPane.noButtonText", "Нет");
-        UIManager.put("OptionPane.cancelButtonText", "Отмена");
-        UIManager.put("OptionPane.okButtonText", "Готово");
+
         try {
             resSet = MainRemOtdel.st.executeQuery("select myorder.PK_ORDER,myorder.NUMOFORDER,"
                     + "TO_CHAR(myorder.TIMETOACCEPT, 'DD.MM.YYYY'),"
@@ -68,7 +65,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     + " inner join status on status.PK_status=myorder.PK_status"
                     + " inner join manager on manager.PK_manager=myorder.PK_manager"
                     + " inner join client on client.PK_client=myorder.PK_client"
-                    + " where myorder.PK_status=6 or myorder.PK_status=7");
+                    + " where myorder.PK_status=6 or myorder.PK_status=7 or myorder.PK_status=8");
             jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
             resSet2 = MainRemOtdel.st.executeQuery("select myorder.PK_ORDER,myorder.NUMOFORDER,"
                     + "TO_CHAR(myorder.TIMETOACCEPT, 'DD.MM.YYYY'),"

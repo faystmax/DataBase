@@ -36,15 +36,17 @@ public class Storagemans extends javax.swing.JFrame implements UpdatesDataInForm
         this.setEnabled(true);
         ResultSet resSet = null;
         try {
-            resSet = MainRemOtdel.st.executeQuery("select * from storekeeper");
+            resSet = MainRemOtdel.st.executeQuery("select PK_STOREKEEPER,FAMOFSTOREKEEPER,NAMEOFSTOREKEEPER,OTCOFSTOREKEEPER from storekeeper");
         } catch (SQLException ex) {
             Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable1.setModel(DbUtils.resultSetToTableModel(resSet));
-        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
+        jTable1.getColumnModel().getColumn(1).setHeaderValue("Фамилия");
+        jTable1.getColumnModel().getColumn(2).setHeaderValue("Имя");
+        jTable1.getColumnModel().getColumn(3).setHeaderValue("Отчество");
     }
 
     /**

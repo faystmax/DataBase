@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
 import users.engineer.EngineerForm;
 
 /**
@@ -41,6 +42,10 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         jLabelIncorrect.setVisible(false);
         jLabelIncorrect.setForeground(Color.RED);
+        UIManager.put("OptionPane.yesButtonText", "Да");
+        UIManager.put("OptionPane.noButtonText", "Нет");
+        UIManager.put("OptionPane.cancelButtonText", "Отмена");
+        UIManager.put("OptionPane.okButtonText", "Готово");
     }
 
     /**
@@ -59,6 +64,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jTextFieldLogin = new javax.swing.JTextField();
         jButtonEnter = new javax.swing.JButton();
         jLabelIncorrect = new javax.swing.JLabel();
+        jCheckBoxParol = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -70,14 +76,14 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabelParol.setText("Пароль");
 
-        jPasswordField.setText("engineer11");
+        jPasswordField.setText("admin");
         jPasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordFieldKeyPressed(evt);
             }
         });
 
-        jTextFieldLogin.setText("engineer1");
+        jTextFieldLogin.setText("admin");
         jTextFieldLogin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldLoginKeyPressed(evt);
@@ -98,26 +104,36 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabelIncorrect.setText("Логин или пароль некорректны");
 
+        jCheckBoxParol.setText("Показать пароль");
+        jCheckBoxParol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxParolItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldLogin)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jCheckBoxParol))
+                    .addComponent(jTextFieldLogin, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPasswordField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelIncorrect)
-                            .addComponent(jLabelParol)
-                            .addComponent(jLabelLogin))
-                        .addGap(0, 61, Short.MAX_VALUE))
-                    .addComponent(jPasswordField))
+                            .addComponent(jLabelLogin)
+                            .addComponent(jLabelParol))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(97, Short.MAX_VALUE)
                 .addComponent(jButtonEnter, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(81, 81, 81))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,15 +142,17 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(jLabelLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelParol)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxParol)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelIncorrect)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonEnter)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         bindingGroup.bind();
@@ -149,18 +167,18 @@ public class LoginFrame extends javax.swing.JFrame {
             ResultSet resSet = null;
             String userLogin = null;
             String userPassword = null;
-            String loginTextField = null;
-            char[] parol;
-            String passwordTextField = null;
+            String loginTextField = jTextFieldLogin.getText();
+            char[] parol = jPasswordField.getPassword();
+            String passwordTextField = String.valueOf(parol);
+            int hashPass = passwordTextField.hashCode();
+
             resSet = MainRemOtdel.st.executeQuery("select manager.login,manager.password, manager.PK_manager  from manager");
 
             while (resSet.next()) {
                 userLogin = resSet.getString(1);
                 userPassword = resSet.getString(2);
-                loginTextField = jTextFieldLogin.getText();
-                parol = jPasswordField.getPassword();
-                passwordTextField = String.valueOf(parol);
-                if (loginTextField.equals(userLogin) && passwordTextField.equals(userPassword)) {
+                int hashUserPassword = Integer.parseInt(userPassword);
+                if (loginTextField.equals(userLogin) && hashPass == hashUserPassword) {
                     Orders orders = null;
                     orders = new Orders(resSet.getInt(3));
                     orders.setVisible(true);
@@ -173,10 +191,8 @@ public class LoginFrame extends javax.swing.JFrame {
             while (resSet.next()) {
                 userLogin = resSet.getString(1);
                 userPassword = resSet.getString(2);
-                loginTextField = jTextFieldLogin.getText();
-                parol = jPasswordField.getPassword();
-                passwordTextField = String.valueOf(parol);
-                if (loginTextField.equals(userLogin) && passwordTextField.equals(userPassword)) {
+                int hashUserPassword = Integer.parseInt(userPassword);
+                if (loginTextField.equals(userLogin) && hashPass == hashUserPassword) {
                     EngineerForm engineerForm = null;
                     engineerForm = new EngineerForm(resSet.getInt(3));
                     engineerForm.setVisible(true);
@@ -189,10 +205,8 @@ public class LoginFrame extends javax.swing.JFrame {
             while (resSet.next()) {
                 userLogin = resSet.getString(1);
                 userPassword = resSet.getString(2);
-                loginTextField = jTextFieldLogin.getText();
-                parol = jPasswordField.getPassword();
-                passwordTextField = String.valueOf(parol);
-                if (loginTextField.equals(userLogin) && passwordTextField.equals(userPassword)) {
+                int hashUserPassword = Integer.parseInt(userPassword);
+                if (loginTextField.equals(userLogin) && hashPass == hashUserPassword) {
                     DetailsStore details = new DetailsStore(resSet.getInt(3));
                     details.setVisible(true);
                     this.dispose();
@@ -231,9 +245,18 @@ public class LoginFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonEnterKeyPressed
 
+    private void jCheckBoxParolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxParolItemStateChanged
+        if(jCheckBoxParol.isSelected()==true){
+            jPasswordField.setEchoChar((char)0);
+        } else {
+            jPasswordField.setEchoChar((char)8226);
+        }
+    }//GEN-LAST:event_jCheckBoxParolItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEnter;
+    private javax.swing.JCheckBox jCheckBoxParol;
     private javax.swing.JLabel jLabelIncorrect;
     private javax.swing.JLabel jLabelLogin;
     private javax.swing.JLabel jLabelParol;

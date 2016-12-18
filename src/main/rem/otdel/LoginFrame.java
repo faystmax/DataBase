@@ -76,14 +76,12 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabelParol.setText("Пароль");
 
-        jPasswordField.setText("admin");
         jPasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordFieldKeyPressed(evt);
             }
         });
 
-        jTextFieldLogin.setText("admin");
         jTextFieldLogin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldLoginKeyPressed(evt);
@@ -246,10 +244,10 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEnterKeyPressed
 
     private void jCheckBoxParolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxParolItemStateChanged
-        if(jCheckBoxParol.isSelected()==true){
-            jPasswordField.setEchoChar((char)0);
+        if (jCheckBoxParol.isSelected() == true) {
+            jPasswordField.setEchoChar((char) 0);
         } else {
-            jPasswordField.setEchoChar((char)8226);
+            jPasswordField.setEchoChar((char) 8226);
         }
     }//GEN-LAST:event_jCheckBoxParolItemStateChanged
 

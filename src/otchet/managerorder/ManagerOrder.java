@@ -128,7 +128,7 @@ public class ManagerOrder extends javax.swing.JFrame implements UpdatesDataInFor
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonCancel = new javax.swing.JButton();
         jButtonPrint = new javax.swing.JButton();
         jButtonChooseMeneger = new javax.swing.JButton();

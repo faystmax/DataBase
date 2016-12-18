@@ -6,6 +6,7 @@
 package users.admin;
 
 import main.rem.otdel.ListenerCloseForm;
+import main.rem.otdel.LoginFrame;
 import main.rem.otdel.UpdatesDataInForms;
 import otchet.alldetail.AllDetail;
 import otchet.managerorder.ManagerOrder;
@@ -28,7 +29,8 @@ public class Admin extends javax.swing.JFrame implements UpdatesDataInForms {
         initComponents();
         addDataInTable();
     }
-        @Override
+
+    @Override
     public void addDataInTable() {
         this.setEnabled(true);
     }
@@ -50,6 +52,7 @@ public class Admin extends javax.swing.JFrame implements UpdatesDataInForms {
         jButtonAllDetails = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuWorkers = new javax.swing.JMenu();
         jMenuItemManagers = new javax.swing.JMenuItem();
@@ -119,6 +122,14 @@ public class Admin extends javax.swing.JFrame implements UpdatesDataInForms {
         );
 
         jMenu2.setText("Файл");
+
+        jMenuItem2.setText("Смена пользователя");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
 
         jMenuItem1.setText("Закрыть");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -231,6 +242,12 @@ public class Admin extends javax.swing.JFrame implements UpdatesDataInForms {
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        LoginFrame loginFrame = new LoginFrame();
+        loginFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAllDetails;
@@ -241,12 +258,12 @@ public class Admin extends javax.swing.JFrame implements UpdatesDataInForms {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemEngineers;
     private javax.swing.JMenuItem jMenuItemManagers;
     private javax.swing.JMenuItem jMenuItemStoragemans;
     private javax.swing.JMenu jMenuWorkers;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-
 
 }

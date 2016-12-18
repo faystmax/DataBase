@@ -150,7 +150,7 @@ public class TimeZakaz extends javax.swing.JFrame implements UpdatesDataInForms 
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonCancel = new javax.swing.JButton();
         jButtonPrint = new javax.swing.JButton();
         jDateChooserStart = new com.toedter.calendar.JDateChooser();

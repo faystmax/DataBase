@@ -14,7 +14,9 @@
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/status/Status.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/managerorder/ChooseMeneger.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/manufacture/ManufacturerAddUpdate.java</file>
+            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/detail/Detail.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/typeofdevice/TypeDevice.java</file>
+            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/detail/DetailAddUpdate.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/manager/Orders.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/notuseddetails/NotUsedDetails.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/status/StatusAddUpdate.java</file>
@@ -30,8 +32,8 @@
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/main/rem/otdel/ListenerCloseForm.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/typeofcrash/TypeCrash.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/manager/ManagersAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/storegman/DetailsStore.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/managerorder/ManagerOrder.java</file>
+            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/storegman/DetailsStore.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/engineer/EngineerForm.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/typeofdevice/TypeDeviceAddUpdate.java</file>
             <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/manager/OrderUpdate.java</file>

@@ -69,7 +69,7 @@ public class ChooseMeneger extends javax.swing.JFrame implements UpdatesDataInFo
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonChoose = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
 

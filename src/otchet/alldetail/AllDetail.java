@@ -80,7 +80,7 @@ public class AllDetail extends javax.swing.JFrame implements UpdatesDataInForms 
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
         jButtonPrint = new javax.swing.JButton();
         jButtonClose = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();

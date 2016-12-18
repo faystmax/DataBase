@@ -19,12 +19,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import main.rem.otdel.ListenerCloseForm;
+import main.rem.otdel.LoginFrame;
 import main.rem.otdel.MainRemOtdel;
 import main.rem.otdel.UpdatesDataInForms;
 import net.proteanit.sql.DbUtils;
 import spravochn.manufacture.ManufacturerAddUpdate;
 import spravochn.typeofcrash.TypeCrashAddUpdate;
 import spravochn.typeofdevice.TypeDeviceAddUpdate;
+import users.engineer.EngineerForm;
 
 /**
  *
@@ -51,6 +53,18 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         ResultSet resSet = null;
         ResultSet resSet2 = null;
 
+
+        try {
+            resSet = MainRemOtdel.st.executeQuery("select manager.FAMOFMANAGER,manager.NAMEOFMANAGER,manager.OTCOFMANAGER from manager"
+                    + " where pk_manager=" + PK);
+            if (resSet.next()) {
+                jLabelFIO.setText("Менеджер: " + resSet.getString(1) + " "
+                        + resSet.getString(2) + " "
+                        + resSet.getString(3));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EngineerForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             resSet = MainRemOtdel.st.executeQuery("select myorder.PK_ORDER,myorder.NUMOFORDER,"
                     + "TO_CHAR(myorder.TIMETOACCEPT, 'DD.MM.YYYY'),"
@@ -254,9 +268,9 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable.getColumnModel().getColumn(8).setMinWidth(150);
         jTable.getColumnModel().getColumn(8).setPreferredWidth(150);
         //
-        jTable.getColumnModel().getColumn(10).setMaxWidth(200);
+      /*  jTable.getColumnModel().getColumn(10).setMaxWidth(200);
         jTable.getColumnModel().getColumn(10).setMinWidth(200);
-        jTable.getColumnModel().getColumn(10).setPreferredWidth(200);
+        jTable.getColumnModel().getColumn(10).setPreferredWidth(200);*/
 
     }
 
@@ -297,14 +311,14 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTextFieldAddTelefon = new javax.swing.JTextField();
         jButtonChooseExist = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jComboBoxManufacturers = new javax.swing.JComboBox<>();
+        jComboBoxManufacturers = new javax.swing.JComboBox<String>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldModel = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jComboBoxTypeDevice = new javax.swing.JComboBox<>();
+        jComboBoxTypeDevice = new javax.swing.JComboBox<String>();
         jLabel8 = new javax.swing.JLabel();
-        jComboBoxTypeCrash = new javax.swing.JComboBox<>();
+        jComboBoxTypeCrash = new javax.swing.JComboBox<String>();
         jButtonAddTypeOfDevice = new javax.swing.JButton();
         jButtonAddManufacturer = new javax.swing.JButton();
         jButtonAddTypeOfCrash = new javax.swing.JButton();
@@ -325,8 +339,10 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             }
         };
         jButton3 = new javax.swing.JButton();
+        jLabelFIO = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuClose = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemStatus = new javax.swing.JMenuItem();
@@ -374,9 +390,11 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(62, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 711, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,7 +444,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonChooseExist, javax.swing.GroupLayout.PREFERRED_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(jButtonChooseExist, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                     .addComponent(jTextFieldAddName, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                     .addComponent(jTextFieldAddOtch)
                     .addComponent(jTextFieldAddTelefon)
@@ -596,7 +614,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -609,7 +627,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Добавление", jPanel1);
@@ -641,9 +659,11 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(66, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 699, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -657,7 +677,18 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
 
         jTabbedPane1.addTab("Просмотр всех заказов", jPanel6);
 
+        jLabelFIO.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelFIO.setText("Фио");
+
         jMenu2.setText("Файл");
+
+        jMenuItem1.setText("Смена пользователя");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
 
         jMenuClose.setText("Закрыть");
         jMenuClose.addActionListener(new java.awt.event.ActionListener() {
@@ -712,10 +743,19 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(273, 273, 273)
+                .addComponent(jLabelFIO, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addComponent(jLabelFIO)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         pack();
@@ -941,6 +981,12 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         this.setEnabled(false);
     }//GEN-LAST:event_jButtonChooseExistActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        LoginFrame loginFrame = new LoginFrame();
+        loginFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -965,11 +1011,13 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelFIO;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuClose;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemManufacturer;
     private javax.swing.JMenuItem jMenuItemStatus;
     private javax.swing.JMenuItem jMenuItemTypeCrash;

@@ -2,42 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/main/rem/otdel/LoginFrame.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/engineer/Engenieers.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/storegman/StoragemanAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/engineer/RepairAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/storegman/Storagemans.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/timezakaz/TimeZakaz.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/alldetail/AllDetail.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/main/rem/otdel/MainRemOtdel.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/status/Status.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/managerorder/ChooseMeneger.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/manufacture/ManufacturerAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/detail/Detail.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/typeofdevice/TypeDevice.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/detail/DetailAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/manager/Orders.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/notuseddetails/NotUsedDetails.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/status/StatusAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/typeofcrash/TypeCrashAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/engineer/EngenieersAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/manager/Managers.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/manufacture/Manufacturer.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/engineer/SctructForTables.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/admin/Admin.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/manager/ChooseExistClient.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/engineer/AddUpdateDetailFromStore.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/engineer/Zapros.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/main/rem/otdel/ListenerCloseForm.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/typeofcrash/TypeCrash.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/manager/ManagersAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/otchet/managerorder/ManagerOrder.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/storegman/DetailsStore.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/engineer/EngineerForm.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/spravochn/typeofdevice/TypeDeviceAddUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/users/manager/OrderUpdate.java</file>
-            <file>file:/C:/Users/Максим/Desktop/7%20семестр/базы/DataBase/src/main/rem/otdel/UpdatesDataInForms.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

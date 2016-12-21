@@ -62,6 +62,7 @@ public class Admin extends javax.swing.JFrame implements UpdatesDataInForms {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Админ");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Отчёты"));
 
@@ -105,7 +106,7 @@ public class Admin extends javax.swing.JFrame implements UpdatesDataInForms {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonTimeOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonOrderMeneger, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
+                    .addComponent(jButtonOrderMeneger, javax.swing.GroupLayout.PREFERRED_SIZE, 272, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

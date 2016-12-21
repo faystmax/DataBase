@@ -119,6 +119,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
                     + " inner join typeofdevice on device.PK_typeofdevice=typeofdevice.PK_typeofdevice"
                     + " inner join myorder on myorder.PK_order=device.PK_order"
                     + " inner join status on status.PK_status=myOrder.PK_status"
+                    + " where engineer.PK_engineer="+ PK
             );
         } catch (SQLException ex) {
             Logger.getLogger(DetailsStore.class.getName()).log(Level.SEVERE, null, ex);
@@ -200,7 +201,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jButtonDelete = new javax.swing.JButton();
         jPanelCreateZapros = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBoxStorekeeper = new javax.swing.JComboBox<String>();
+        jComboBoxStorekeeper = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jButtonSend = new javax.swing.JButton();
@@ -210,7 +211,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jButtonDeleteDetail = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable( )         {             @Override             public boolean isCellEditable(int row, int column)             {                 return false;             }         };
-        jComboBoxDetail = new javax.swing.JComboBox<String>();
+        jComboBoxDetail = new javax.swing.JComboBox<>();
         jSpinner1 = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -223,6 +224,7 @@ public class EngineerForm extends javax.swing.JFrame implements UpdatesDataInFor
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Инженер");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

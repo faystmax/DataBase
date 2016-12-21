@@ -53,7 +53,6 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         ResultSet resSet = null;
         ResultSet resSet2 = null;
 
-
         try {
             resSet = MainRemOtdel.st.executeQuery("select manager.FAMOFMANAGER,manager.NAMEOFMANAGER,manager.OTCOFMANAGER from manager"
                     + " where pk_manager=" + PK);
@@ -268,7 +267,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTable.getColumnModel().getColumn(8).setMinWidth(150);
         jTable.getColumnModel().getColumn(8).setPreferredWidth(150);
         //
-      /*  jTable.getColumnModel().getColumn(10).setMaxWidth(200);
+        /*  jTable.getColumnModel().getColumn(10).setMaxWidth(200);
         jTable.getColumnModel().getColumn(10).setMinWidth(200);
         jTable.getColumnModel().getColumn(10).setPreferredWidth(200);*/
 
@@ -311,14 +310,14 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
         jTextFieldAddTelefon = new javax.swing.JTextField();
         jButtonChooseExist = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jComboBoxManufacturers = new javax.swing.JComboBox<String>();
+        jComboBoxManufacturers = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldModel = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jComboBoxTypeDevice = new javax.swing.JComboBox<String>();
+        jComboBoxTypeDevice = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jComboBoxTypeCrash = new javax.swing.JComboBox<String>();
+        jComboBoxTypeCrash = new javax.swing.JComboBox<>();
         jButtonAddTypeOfDevice = new javax.swing.JButton();
         jButtonAddManufacturer = new javax.swing.JButton();
         jButtonAddTypeOfCrash = new javax.swing.JButton();
@@ -444,7 +443,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonChooseExist, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(jButtonChooseExist, javax.swing.GroupLayout.PREFERRED_SIZE, 266, Short.MAX_VALUE)
                     .addComponent(jTextFieldAddName, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                     .addComponent(jTextFieldAddOtch)
                     .addComponent(jTextFieldAddTelefon)
@@ -679,6 +678,7 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
 
         jLabelFIO.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelFIO.setText("Фио");
+        jLabelFIO.setToolTipText("");
 
         jMenu2.setText("Файл");
 
@@ -923,6 +923,10 @@ public class Orders extends javax.swing.JFrame implements UpdatesDataInForms {
             Object PK = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             int primKey = Integer.parseInt(PK.toString());
             try {
+                if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).toString().equals("7")) {
+                    JOptionPane.showMessageDialog(this, "Товар уже выдан!");
+                    return;
+                }
                 MainRemOtdel.st.executeQuery("UPDATE SERVERADM.myorder SET  PK_STATUS= " + 7 + " WHERE PK_ORDER=" + PK);
                 Date datenow = new Date();
                 java.sql.Date date = new java.sql.Date(datenow.getTime());
